@@ -35,7 +35,7 @@ onMounted(() => {});
     </el-aside>
     <el-container>
       <el-header style="display: flex; align-items: center; justify-content: center;">
-        <h3 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h3>
+        <h2 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h2>
         <div class="block" style="margin-left: 16px">
           <el-avatar
             :size="30"
@@ -62,6 +62,10 @@ onMounted(() => {});
     .el-menu {
       border-right: none;
       background-color: rgb(12, 81, 150);
+    }
+    .el-menu :hover{
+      border-right: none;
+      background-color: rgb(2, 56, 110);
     }
   }
   .el-header {
