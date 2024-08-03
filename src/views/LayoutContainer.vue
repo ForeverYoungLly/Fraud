@@ -54,13 +54,14 @@ onMounted(() => {});
 .layout-container {
   height: 100vh;
   .el-aside {
-    background-color: #232323;
+    background-color: rgb(12, 81, 150);
     &__logo {
       height: 120px;
-      background: url("") no-repeat center / 120px auto;
+      background: url("@/assets/诈骗终结者.png") no-repeat center / 120px auto;
     }
     .el-menu {
       border-right: none;
+      background-color: rgb(12, 81, 150);
     }
   }
   .el-header {
