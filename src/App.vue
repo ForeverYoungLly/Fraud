@@ -12,6 +12,10 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 </template>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
 .el-statistic__head {
   font-size: xx-large !important;
   color: #409eff !important;

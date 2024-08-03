@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <template>
-  <el-card class="page-container">
+  <el-card class="page-container" shadow="never">
     <template #header>
       <div class="header">
         <span>{{ title }}</span>

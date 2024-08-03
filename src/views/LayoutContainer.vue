@@ -34,9 +34,9 @@ onMounted(() => {});
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header>
-        <h3 style="text-align: center; margin-right: 450px;">诈骗终结者——涉诈APK智能识别系统</h3>
-        <div class="block" style="margin-right: 10px">
+      <el-header style="display: flex; align-items: center; justify-content: center;">
+        <h3 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h3>
+        <div class="block" style="margin-left: 16px">
           <el-avatar
             :size="30"
             src="https://pic.616pic.com/ys_img/00/05/82/I2Pgna6kwf.jpg"
