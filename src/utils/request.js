@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const instance = axios.create({
+const request = axios.create({
   // TODO 1. 基础地址，超时时间
   baseURL: 'https://fu.oboard.eu.org'
 })
 
 
-export default instance
+export default request

@@ -10,7 +10,7 @@ const router = useRouter()
 
 const loading = ref(false);
 
-defineOptions({ name: "QrcodeUpload" });
+defineOptions({ name: "Upload" });
 
 const changeFile = (file) => {
   ElMessage({

@@ -4,15 +4,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { 
+      path: '/PlatformIntroduce',
+      component: () => import('@/views/PlatformIntroduce/PlatformIntroduce.vue')
+    },
     {
       path: '/',
       component: () => import('@/views/LayoutContainer.vue'),
       redirect: '/ApkParsing',
       children: [
-        {
-          path: '/PlatformIntroduce',
-          component: () => import('@/views/PlatformIntroduce/PlatformIntroduce.vue')
-        },
         {
           path: '/ApkParsing',
           component: () => import('@/views/ApkParsing/ApkParsing.vue')

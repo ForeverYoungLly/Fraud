@@ -35,7 +35,7 @@ onMounted(() => {});
     </el-aside>
     <el-container>
       <el-header style="display: flex; align-items: center; justify-content: center;">
-        <h3 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h3>
+        <h2 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h2>
         <div class="block" style="margin-left: 16px">
           <el-avatar
             :size="30"
@@ -54,13 +54,18 @@ onMounted(() => {});
 .layout-container {
   height: 100vh;
   .el-aside {
-    background-color: #232323;
+    background-color: rgb(12, 81, 150);
     &__logo {
       height: 120px;
-      background: url("") no-repeat center / 120px auto;
+      background: url("@/assets/诈骗终结者.png") no-repeat center / 120px auto;
     }
     .el-menu {
       border-right: none;
+      background-color: rgb(12, 81, 150);
+    }
+    .el-menu :hover{
+      border-right: none;
+      background-color: rgb(2, 56, 110);
     }
   }
   .el-header {
