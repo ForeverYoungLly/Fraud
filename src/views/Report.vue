@@ -1,4 +1,5 @@
 <script setup>
+import VueMarkdown from 'markdown-vue'
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import InformationItem from "../components/InformationItem.vue";
@@ -769,18 +770,78 @@ onMounted(() => {
               d="M728.078 956.122H294.83c-124.896 0-226.506-101.636-226.506-226.566V296.358c0-124.908 101.61-226.526 226.506-226.526h433.248c124.918 0 226.544 101.62 226.544 226.526v433.198c0.002 124.928-101.626 226.566-226.544 226.566zM294.83 89.636c-113.976 0-206.702 92.734-206.702 206.72v433.198c0 114.008 92.726 206.762 206.702 206.762h433.248c113.996 0 206.74-92.754 206.74-206.762V296.358c0-113.986-92.744-206.72-206.74-206.72H294.83z"
               fill="#436000" p-id="4306"></path>
           </svg>
-          <h1 class="font-bold text-xl">
+          <span class="font-bold text-xl">
             {{ report.application_name }}
-          </h1>
+          </span>
 
         </div>
+        <div class="bg-blue-50 p-2 rounded">
+          <div class="flex flex-row gap-2">
+            <svg class="icon w-8 h-8" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              p-id="5370" width="200" height="200">
+              <path
+                d="M891.228 500c0 26.508-21.492 48-48 48H180.776c-26.508 0-48-21.492-48-48v-58.668c0-26.508 21.492-48 48-48h662.452c26.508 0 48 21.492 48 48V500z"
+                fill="#99D9E8" p-id="5371"></path>
+              <path d="M150.776 474h722.452v63.456H150.776z" fill="#6E6E96" opacity=".2" p-id="5372"></path>
+              <path
+                d="M843.228 566H180.776c-36.392 0-66-29.608-66-66v-58.668c0-36.392 29.608-66 66-66h662.452c36.392 0 66 29.608 66 66V500c0 36.392-29.62 66-66 66zM180.776 411.332c-16.544 0-30 13.456-30 30V500c0 16.544 13.456 30 30 30h662.452c16.54 0 30-13.456 30-30v-58.668c0-16.544-13.46-30-30-30H180.776z"
+                fill="#6E6E96" p-id="5373"></path>
+              <path
+                d="M816 640c0 22-18 40-40 40H247.996c-22 0-40-18-40-40V300c0-22 18-40 40-40H776c22 0 40 18 40 40v340z"
+                fill="#B4B7C9" p-id="5374"></path>
+              <path d="M215.368 260.332h554.228v53H215.368z" fill="#FFFFFF" opacity=".2" p-id="5375"></path>
+              <path
+                d="M776 698H248c-31.98 0-58-26.02-58-58V300c0-31.98 26.02-58 58-58h528c31.98 0 58 26.02 58 58v340c0 31.98-26.02 58-58 58zM248 278a22.024 22.024 0 0 0-22 22v340c0 12.128 9.868 22 22 22h528c12.128 0 22-9.872 22-22V300c0-12.132-9.872-22-22-22H248z"
+                fill="#6E6E96" p-id="5376"></path>
+              <path d="M132.776 1012v-152c0-22 18-40 40-40h678.452c22 0 40 18 40 40v152" fill="#F8A4A7" p-id="5377">
+              </path>
+              <path d="M494 140h36v120h-36z" fill="#6E6E96" p-id="5378"></path>
+              <path d="M511.18 105.524m-66.476 0a66.476 66.476 0 1 0 132.952 0 66.476 66.476 0 1 0-132.952 0Z"
+                fill="#B4B7C9" p-id="5379"></path>
+              <path
+                d="M511.18 190c-46.58 0-84.476-37.896-84.476-84.476 0-46.584 37.896-84.48 84.476-84.48 46.584 0 84.476 37.896 84.476 84.48 0 46.58-37.9 84.476-84.476 84.476z m0-132.956c-26.732 0-48.476 21.752-48.476 48.48 0 26.732 21.744 48.476 48.476 48.476 26.736 0 48.476-21.748 48.476-48.476 0-26.728-21.74-48.48-48.476-48.48z"
+                fill="#6E6E96" p-id="5380"></path>
+              <path d="M226 313.332H404v304.252H226z" fill="#FFFFFF" opacity=".2" p-id="5381"></path>
+              <path d="M456 680h128v140h-128z" fill="#FDD089" p-id="5382"></path>
+              <path d="M602 838h-164v-176h164v176z m-128-36h92v-104h-92v104z" fill="#6E6E96" p-id="5383"></path>
+              <path d="M456 732h132v36h-132z" fill="#6E6E96" p-id="5384"></path>
+              <path d="M387.364 395.412m-66.436 0a66.436 66.436 0 1 0 132.872 0 66.436 66.436 0 1 0-132.872 0Z"
+                fill="#A9DDF3" p-id="5385"></path>
+              <path
+                d="M387.364 479.844c-46.56 0-84.436-37.876-84.436-84.436s37.876-84.436 84.436-84.436c46.56 0 84.436 37.876 84.436 84.436s-37.876 84.436-84.436 84.436z m0-132.868c-26.708 0-48.436 21.728-48.436 48.436s21.728 48.436 48.436 48.436 48.436-21.728 48.436-48.436-21.728-48.436-48.436-48.436z"
+                fill="#6E6E96" p-id="5386"></path>
+              <path d="M643.1 395.412m-66.436 0a66.436 66.436 0 1 0 132.872 0 66.436 66.436 0 1 0-132.872 0Z"
+                fill="#A9DDF3" p-id="5387"></path>
+              <path
+                d="M643.1 479.844c-46.564 0-84.432-37.876-84.432-84.436s37.876-84.436 84.432-84.436c46.556 0 84.432 37.876 84.432 84.436s-37.872 84.436-84.432 84.436z m0-132.868c-26.712 0-48.432 21.728-48.432 48.436s21.732 48.436 48.432 48.436 48.432-21.728 48.432-48.436c0.004-26.708-21.724-48.436-48.432-48.436zM499.332 525.332h36v77.336h-36zM424.668 525.332h36v77.336h-36z"
+                fill="#6E6E96" p-id="5388"></path>
+              <path d="M230.036 838h189.332V1012H230.036z" fill="#FBD2D3" opacity=".5" p-id="5389"></path>
+              <path d="M699.964 838h173.26V1012h-173.26z" fill="#D99A9D" p-id="5390"></path>
+              <path
+                d="M909.228 1012h-36v-152c0-12.132-9.876-22-22-22H172.776a22.024 22.024 0 0 0-22 22v152h-36v-152c0-31.98 26.02-58 58-58h678.452c31.976 0 58 26.02 58 58v152z"
+                fill="#6E6E96" p-id="5391"></path>
+              <path
+                d="M522 698h44v104h-44zM784 252h-14.408v325.592c0 22-18 40-40 40H216V632c0 22 18 40 40 40h528c22 0 40-18 40-40V292c0-22-18-40-40-40z"
+                fill="#6E6E96" opacity=".2" p-id="5392"></path>
+              <path d="M419.368 838h280.596v38h-280.596z" fill="#FBD2D3" opacity=".5" p-id="5393"></path>
+              <path d="M575.332 525.332h36v77.336h-36z" fill="#6E6E96" p-id="5394"></path>
+              <path
+                d="M670.668 916h29.296v34.668h-29.296zM645.98 950.668h53.984v34.668h-53.984zM588.668 936h26.668v29.332h-26.668z"
+                fill="#D99A9D" p-id="5395"></path>
+            </svg>
+            <span class="font-bold text-lg">
+              AI 研判
+            </span>
+          </div>
+          <VueMarkdown :source="report.ai_response"></VueMarkdown>
 
-        <InformationItem :label="'安装包名'" :value="report.package_name" />
+        </div>
+        <InformationItem :label="'包名'" :value="report.package_name" />
         <InformationItem :label="'MD5'" :value="report.md5" />
         <InformationItem :label="'SHA1'" :value="report.SHA1" />
         <InformationItem :label="'SHA256'" :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
         <InformationItem :label="'SHA512'" :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
-        <InformationItem :label="'大小'" v-if="report.static_analysis?.basic_info?.size"
+        <InformationItem :label="'安装包大小'" v-if="report.static_analysis?.basic_info?.size"
           :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />
         <InformationItem :label="'版本名称'" :value="report.version_name" />
@@ -877,7 +938,15 @@ onMounted(() => {
           <!-- IOC对象	研判意见	情报类型	恶意类型	家族/团伙	标签 -->
           <el-table-column type="index" width="50" label="#" :index="(i) => i" />
           <el-table-column prop="ioc" label="IOC对象" />
-          <el-table-column prop="ti_ioc_tag" label="研判意见" />
+          <el-table-column prop="ti_ioc_tag" label="研判意见">
+            <template #default="scope">
+              {{ {
+                "-1": "未知",
+                "1": "可疑",
+                "2": "安全",
+              }[scope.row.ti_ioc_tag] }}
+            </template>
+          </el-table-column>
           <el-table-column prop="ti_type" label="情报类型" />
           <el-table-column prop="malicious_type" label="恶意类型" />
           <el-table-column prop="family" label="家族/团伙" />
@@ -895,13 +964,10 @@ onMounted(() => {
 
       <div class="mt-8">
         <InformationItem label="运行截图" value="" />
-        <!-- 横向滚动 -->
-
-        <el-carousel :interval="4000" type="card" height="400px">
-          <el-carousel-item v-for="(screenshot, index) in report.screenshot" :key="index">
-            <img :src="'data:image/png;base64,' + screenshot" :key="index" />
-          </el-carousel-item>
-        </el-carousel>
+        <div class="grid grid-cols-4 gap-2">
+          <img v-for="(screenshot, index) in report.screenshot" :src="'data:image/png;base64,' + screenshot"
+            class="border rounded-md" :key="index" />
+        </div>
       </div>
 
     </div>
