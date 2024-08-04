@@ -1,8 +1,11 @@
 <script setup>
+import VueMarkdown from 'markdown-vue'
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import InformationItem from "../components/InformationItem.vue";
 import { android_permissions } from "../utils/permissions";
+
+const currentSection = ref('basic');
 
 const route = useRoute();
 // 获取query中的id
@@ -724,15 +727,35 @@ const permissionTableData = computed(() => {
 
 
 onMounted(() => {
-  fetch(`https://fu.oboard.eu.org/reports/get?id=${id}`)
-    .then((res) =>
-      res.json()
-    ).then((data) => {
-      report.value = data;
-    })
-    .catch((error) => {
-      console.error(error);
+  const main = document.querySelector(".el-main");
+  main.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section');
+    let scrollPosition = main.scrollTop + 100;
+    console.log(scrollPosition)
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        currentSection.value = section.getAttribute('id');
+      }
     });
+  });
+
+
+  const queryData = (more) => {
+    fetch(`https://fu.oboard.eu.org/reports/get${more ? "_more" : ""}?id=${id}`)
+      .then((res) =>
+        res.json()
+      ).then((data) => {
+        report.value = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  queryData();
+  queryData(true);
 
 });
 
@@ -741,11 +764,20 @@ onMounted(() => {
 
 <template>
   <div>
+
+    <div class="min-w-[150px] flex flex-col fixed nav">
+      <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
+      <a href="#permission" :class="{ active: currentSection === 'permission' }">权限信息</a>
+      <a href="#threat" :class="{ active: currentSection === 'threat' }">威胁情报</a>
+      <a href="#domain" :class="{ active: currentSection === 'domain' }">域名线索</a>
+      <a href="#screenshot" :class="{ active: currentSection === 'screenshot' }">运行截图</a>
+      <a href="#behavior" :class="{ active: currentSection === 'behavior' }">行为信息</a>
+    </div>
     <div>
-      <div>
+      <section id="basic">
         <div>
-          <img v-if="report.static_analysis.data.basic_info.file_icon"
-            :src="'data:image/png;base64,' + report.static_analysis.data.basic_info.file_icon" alt="icon"
+          <img v-if="report.static_analysis?.basic_info?.file_icon"
+            :src="'data:image/png;base64,' + report.static_analysis.basic_info.file_icon" alt="icon"
             class="w-16 h-16 mb-2">
           <svg v-else class="w-16 h-16 mb-2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="4301" width="200" height="200">
@@ -765,19 +797,79 @@ onMounted(() => {
               d="M728.078 956.122H294.83c-124.896 0-226.506-101.636-226.506-226.566V296.358c0-124.908 101.61-226.526 226.506-226.526h433.248c124.918 0 226.544 101.62 226.544 226.526v433.198c0.002 124.928-101.626 226.566-226.544 226.566zM294.83 89.636c-113.976 0-206.702 92.734-206.702 206.72v433.198c0 114.008 92.726 206.762 206.702 206.762h433.248c113.996 0 206.74-92.754 206.74-206.762V296.358c0-113.986-92.744-206.72-206.74-206.72H294.83z"
               fill="#436000" p-id="4306"></path>
           </svg>
-          <h1 class="font-bold text-xl">
+          <span class="font-bold text-xl">
             {{ report.application_name }}
-          </h1>
+          </span>
 
         </div>
+        <div class="bg-blue-50 p-2 rounded">
+          <div class="flex flex-row gap-2">
+            <svg class="icon w-8 h-8" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              p-id="5370" width="200" height="200">
+              <path
+                d="M891.228 500c0 26.508-21.492 48-48 48H180.776c-26.508 0-48-21.492-48-48v-58.668c0-26.508 21.492-48 48-48h662.452c26.508 0 48 21.492 48 48V500z"
+                fill="#99D9E8" p-id="5371"></path>
+              <path d="M150.776 474h722.452v63.456H150.776z" fill="#6E6E96" opacity=".2" p-id="5372"></path>
+              <path
+                d="M843.228 566H180.776c-36.392 0-66-29.608-66-66v-58.668c0-36.392 29.608-66 66-66h662.452c36.392 0 66 29.608 66 66V500c0 36.392-29.62 66-66 66zM180.776 411.332c-16.544 0-30 13.456-30 30V500c0 16.544 13.456 30 30 30h662.452c16.54 0 30-13.456 30-30v-58.668c0-16.544-13.46-30-30-30H180.776z"
+                fill="#6E6E96" p-id="5373"></path>
+              <path
+                d="M816 640c0 22-18 40-40 40H247.996c-22 0-40-18-40-40V300c0-22 18-40 40-40H776c22 0 40 18 40 40v340z"
+                fill="#B4B7C9" p-id="5374"></path>
+              <path d="M215.368 260.332h554.228v53H215.368z" fill="#FFFFFF" opacity=".2" p-id="5375"></path>
+              <path
+                d="M776 698H248c-31.98 0-58-26.02-58-58V300c0-31.98 26.02-58 58-58h528c31.98 0 58 26.02 58 58v340c0 31.98-26.02 58-58 58zM248 278a22.024 22.024 0 0 0-22 22v340c0 12.128 9.868 22 22 22h528c12.128 0 22-9.872 22-22V300c0-12.132-9.872-22-22-22H248z"
+                fill="#6E6E96" p-id="5376"></path>
+              <path d="M132.776 1012v-152c0-22 18-40 40-40h678.452c22 0 40 18 40 40v152" fill="#F8A4A7" p-id="5377">
+              </path>
+              <path d="M494 140h36v120h-36z" fill="#6E6E96" p-id="5378"></path>
+              <path d="M511.18 105.524m-66.476 0a66.476 66.476 0 1 0 132.952 0 66.476 66.476 0 1 0-132.952 0Z"
+                fill="#B4B7C9" p-id="5379"></path>
+              <path
+                d="M511.18 190c-46.58 0-84.476-37.896-84.476-84.476 0-46.584 37.896-84.48 84.476-84.48 46.584 0 84.476 37.896 84.476 84.48 0 46.58-37.9 84.476-84.476 84.476z m0-132.956c-26.732 0-48.476 21.752-48.476 48.48 0 26.732 21.744 48.476 48.476 48.476 26.736 0 48.476-21.748 48.476-48.476 0-26.728-21.74-48.48-48.476-48.48z"
+                fill="#6E6E96" p-id="5380"></path>
+              <path d="M226 313.332H404v304.252H226z" fill="#FFFFFF" opacity=".2" p-id="5381"></path>
+              <path d="M456 680h128v140h-128z" fill="#FDD089" p-id="5382"></path>
+              <path d="M602 838h-164v-176h164v176z m-128-36h92v-104h-92v104z" fill="#6E6E96" p-id="5383"></path>
+              <path d="M456 732h132v36h-132z" fill="#6E6E96" p-id="5384"></path>
+              <path d="M387.364 395.412m-66.436 0a66.436 66.436 0 1 0 132.872 0 66.436 66.436 0 1 0-132.872 0Z"
+                fill="#A9DDF3" p-id="5385"></path>
+              <path
+                d="M387.364 479.844c-46.56 0-84.436-37.876-84.436-84.436s37.876-84.436 84.436-84.436c46.56 0 84.436 37.876 84.436 84.436s-37.876 84.436-84.436 84.436z m0-132.868c-26.708 0-48.436 21.728-48.436 48.436s21.728 48.436 48.436 48.436 48.436-21.728 48.436-48.436-21.728-48.436-48.436-48.436z"
+                fill="#6E6E96" p-id="5386"></path>
+              <path d="M643.1 395.412m-66.436 0a66.436 66.436 0 1 0 132.872 0 66.436 66.436 0 1 0-132.872 0Z"
+                fill="#A9DDF3" p-id="5387"></path>
+              <path
+                d="M643.1 479.844c-46.564 0-84.432-37.876-84.432-84.436s37.876-84.436 84.432-84.436c46.556 0 84.432 37.876 84.432 84.436s-37.872 84.436-84.432 84.436z m0-132.868c-26.712 0-48.432 21.728-48.432 48.436s21.732 48.436 48.432 48.436 48.432-21.728 48.432-48.436c0.004-26.708-21.724-48.436-48.432-48.436zM499.332 525.332h36v77.336h-36zM424.668 525.332h36v77.336h-36z"
+                fill="#6E6E96" p-id="5388"></path>
+              <path d="M230.036 838h189.332V1012H230.036z" fill="#FBD2D3" opacity=".5" p-id="5389"></path>
+              <path d="M699.964 838h173.26V1012h-173.26z" fill="#D99A9D" p-id="5390"></path>
+              <path
+                d="M909.228 1012h-36v-152c0-12.132-9.876-22-22-22H172.776a22.024 22.024 0 0 0-22 22v152h-36v-152c0-31.98 26.02-58 58-58h678.452c31.976 0 58 26.02 58 58v152z"
+                fill="#6E6E96" p-id="5391"></path>
+              <path
+                d="M522 698h44v104h-44zM784 252h-14.408v325.592c0 22-18 40-40 40H216V632c0 22 18 40 40 40h528c22 0 40-18 40-40V292c0-22-18-40-40-40z"
+                fill="#6E6E96" opacity=".2" p-id="5392"></path>
+              <path d="M419.368 838h280.596v38h-280.596z" fill="#FBD2D3" opacity=".5" p-id="5393"></path>
+              <path d="M575.332 525.332h36v77.336h-36z" fill="#6E6E96" p-id="5394"></path>
+              <path
+                d="M670.668 916h29.296v34.668h-29.296zM645.98 950.668h53.984v34.668h-53.984zM588.668 936h26.668v29.332h-26.668z"
+                fill="#D99A9D" p-id="5395"></path>
+            </svg>
+            <span class="font-bold text-lg">
+              AI 研判
+            </span>
+          </div>
+          <VueMarkdown :source="report.ai_response"></VueMarkdown>
 
-        <InformationItem :label="'安装包名'" :value="report.package_name" />
+        </div>
+        <InformationItem :label="'包名'" :value="report.package_name" />
         <InformationItem :label="'MD5'" :value="report.md5" />
         <InformationItem :label="'SHA1'" :value="report.SHA1" />
-        <InformationItem :label="'SHA256'" :value="report.static_analysis.data.basic_info.sha256" />
-        <InformationItem :label="'SHA512'" :value="report.static_analysis.data.basic_info.sha512" />
-        <InformationItem :label="'大小'"
-          :value="(report.static_analysis.data.basic_info.size / 1024 / 1024).toFixed(2) + 'MB'" />
+        <InformationItem :label="'SHA256'" :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
+        <InformationItem :label="'SHA512'" :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
+        <InformationItem :label="'安装包大小'" v-if="report.static_analysis?.basic_info?.size"
+          :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />
         <InformationItem :label="'版本名称'" :value="report.version_name" />
         <InformationItem :label="'目标SDK版本号'" :value="[
@@ -822,188 +914,117 @@ onMounted(() => {
         ]
         [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
 
-        <div class="mt-8">
-          <InformationItem label="权限列表" value="" />
+      </section>
 
-          <el-table border :data="permissionTableData" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
+      <section id="permission" class="mt-8">
+        <InformationItem label="权限列表" value="" />
 
-            switch (row.Level) {
-              case 0:
-                return 'normal-row'
-              case 1:
-                return 'warning-row'
-              case 2:
-                return 'danger-row'
-            }
-            return ''
-          }">
-            <el-table-column type="index" width="50" label="#" :index="(i) => i" />
-            <el-table-column prop="Key" label="权限" />
-            <el-table-column prop="Title" label="名称" />
-            <el-table-column prop="Memo" label="描述" />
-          </el-table>
-        </div>
+        <el-table border :data="permissionTableData" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
 
-      </div>
+          switch (row.Level) {
+            case 0:
+              return 'normal-row'
+            case 1:
+              return 'warning-row'
+            case 2:
+              return 'danger-row'
+          }
+          return ''
+        }">
+          <el-table-column type="index" width="50" label="#" :index="(i) => i" />
+          <el-table-column prop="Key" label="权限" />
+          <el-table-column prop="Title" label="名称" />
+          <el-table-column prop="Memo" label="描述" />
+        </el-table>
+      </section>
+
+      <section id="threat" class="mt-8" v-if="report.static_analysis?.code_analysis">
+        <InformationItem label="威胁情报" value="" />
+
+        <el-table border :data="report.threat_analysis.ti.data" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
+          // switch (row.Level) {
+          //   case 0:
+          //     return 'normal-row'
+          //   case 1:
+          //     return 'warning-row'
+          //   case 2:
+          //     return 'danger-row'
+          // }
+          return ''
+        }">
+          <!-- IOC对象	研判意见	情报类型	恶意类型	家族/团伙	标签 -->
+          <el-table-column type="index" width="50" label="#" :index="(i) => i" />
+          <el-table-column prop="ioc" label="IOC对象" />
+          <el-table-column prop="ti_ioc_tag" label="研判意见">
+            <template #default="scope">
+              {{ {
+                "-1": "未知",
+                "1": "可疑",
+                "2": "安全",
+              }[scope.row.ti_ioc_tag] }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="ti_type" label="情报类型" />
+          <el-table-column prop="malicious_type" label="恶意类型" />
+          <el-table-column prop="family" label="家族/团伙" />
 
 
-      <div class="mt-8" v-if="report.static_analysis.data.code_analysis">
+          <el-table-column prop="tag" label="标签">
+            <template #default="scope">
+              <el-tag v-for="t in scope.row.tag" disable-transitions>{{ t.name }}</el-tag>
+            </template>
+          </el-table-column>
+
+        </el-table>
+      </section>
+
+      <section id="domain" class="mt-8" v-if="report.static_analysis?.code_analysis">
         <InformationItem label="域名线索" value="" />
         <ul>
-          <li v-for="domain in report.static_analysis.data.code_analysis.domains" :key="domain"
-            style="color: deepskyblue;">
+          <li v-for="domain in report.static_analysis.code_analysis.domains" :key="domain" style="color: deepskyblue;">
             {{ domain }}
           </li>
         </ul>
-      </div>
+      </section>
+
+
+      <section id="screenshot" class="mt-8">
+        <InformationItem label="运行截图" value="" />
+        <div class="grid grid-cols-4 gap-2">
+          <img v-for="(screenshot, index) in report.screenshot" :src="'data:image/png;base64,' + screenshot"
+            class="border rounded-md" :key="index" />
+        </div>
+      </section>
+
+
+      <section id="behavior" class="mt-8" v-if="report?.host_behavior?.hostbehavior?.api_binder">
+        <InformationItem label="行为分析" value="" />
+        <el-card>
+          <el-table :data="report.host_behavior.hostbehavior.api_binder" border style="width: 100%">
+            <el-table-column prop="title" label="行为类型" width="180">
+            </el-table-column>
+            <el-table-column label="详细信息">
+              <template v-slot="scope">
+                <el-table :data="scope.row.value" border style="width: 100%">
+                  <el-table-column prop="class" label="类名" width="200">
+                  </el-table-column>
+                  <el-table-column prop="method" label="方法">
+                  </el-table-column>
+                  <el-table-column prop="args" label="参数">
+                  </el-table-column>
+                  <el-table-column prop="ret" label="返回值">
+                  </el-table-column>
+                </el-table>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </section>
 
     </div>
 
   </div>
 
-  <!-- <el-container>
-    <el-main>
-      <el-descriptions title="AI 检测结果" :column="1" border>
-        <el-descriptions-item label="AI 检测结果" label-align="center" align="center" label-class-name="my-label"
-          class-name="my-content" width="30px">
-          <pre style="text-align: left; white-space: pre-wrap;">{{ report.ai_response }}</pre>
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions title="该 APK 分析得出" :column="2" border>
-        <el-descriptions-item label="应用名称" label-align="center" align="center" width="100px" class-name="my-content">
-          {{ report.application_name }}
-        </el-descriptions-item>
-        <el-descriptions-item label="安装包名" label-align="center" align="center" width="100px">
-          {{ report.package_name }}
-        </el-descriptions-item>
-        <el-descriptions-item label="MD5" label-align="center" align="center">
-          {{ report.md5 }}
-        </el-descriptions-item>
-        <el-descriptions-item label="版本编号" label-align="center" align="center">
-          {{ report.version_code }}
-        </el-descriptions-item>
-        <el-descriptions-item label="版本名称" label-align="center" align="center">
-          {{ report.version_name }}
-        </el-descriptions-item>
-        <el-descriptions-item label="目标SDK版本号" label-align="center" align="center">
-          {{ report.target_sdk_version }}
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="SHA1指纹" label-align="center" align="center" width="100px">
-          {{ report.SHA1 }}
-        </el-descriptions-item>
-        <el-descriptions-item label="活动列表" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.activities" :key="activity">
-            <p>{{ activity }}</p>
-          </el-text>
-        </el-descriptions-item>
-        <el-descriptions-item label="权限列表" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="permission in report.permissions" :key="permission">
-            <p>{{ permission }}</p>
-          </el-text>
-        </el-descriptions-item>
-      </el-descriptions>
-
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="评分" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.score }}
-        </el-descriptions-item>
-        <el-descriptions-item label="SHA1 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha1 }}
-        </el-descriptions-item>
-        <el-descriptions-item label="SHA256 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha256 }}
-        </el-descriptions-item>
-        <el-descriptions-item label="SHA512 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha512 }}
-        </el-descriptions-item>
-        <el-descriptions-item label="大小" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.size }}
-        </el-descriptions-item>
-        <el-descriptions-item label="ssdeep" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.ssdeep }}
-        </el-descriptions-item>
-        <el-descriptions-item label="类型" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.type }}
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="域名" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.domains }}
-        </el-descriptions-item>
-        <el-descriptions-item label="所涉及到的邮箱" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.emails }}
-        </el-descriptions-item>
-        <el-descriptions-item label="IP" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.ips }}
-        </el-descriptions-item>
-        <el-descriptions-item label="URL" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.urls }}
-        </el-descriptions-item>
-        <el-descriptions-item label="主要活动" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.metadata.main_activity }}
-        </el-descriptions-item>
-        <el-descriptions-item label="一般权限" label-align="center" align="center" width="100px" border>
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions.general" :key="activity">
-            <p>{{ activity }}</p>
-          </el-text>
-        </el-descriptions-item>
-        <el-descriptions-item label="用户权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions.custom" :key="activity">
-            <p>{{ activity }}</p>
-          </el-text>
-        </el-descriptions-item>
-        <el-descriptions-item label="敏感权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions
-            .sensitive" :key="activity">
-            <p>{{ activity }}</p>
-          </el-text>
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions :column="1" border title="签名">
-        <el-descriptions-item label="issuer" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].issuer }}
-        </el-descriptions-item>
-        <el-descriptions-item label="序列号" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].serial_number }}
-        </el-descriptions-item>
-        <el-descriptions-item label="SHA1指纹" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].sha1_fingerprint }}
-        </el-descriptions-item>
-        <el-descriptions-item label="SHA256指纹" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].sha256_fingerprint }}
-        </el-descriptions-item>
-      </el-descriptions>
-
-      <el-text class="mx-1" size="large">行为异常分析</el-text>
-      <el-table :data="report.threat_analysis.data.behavior_exception_analyze" style="width: 100%; margin-left: 12%">
-        <el-table-column prop="description_chinese" label="名称" width="300" />
-        <el-table-column prop="name" label="Name" width="300" />
-        <el-table-column prop="severity" label="严重程度" width="200" />
-      </el-table>
-
-      <el-text class="mx-1" size="large">敏感权限列表</el-text>
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="敏感权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions
-            .sensitive" :key="activity">
-            <p>{{ activity }}</p>
-          </el-text>
-        </el-descriptions-item>
-      </el-descriptions>
-
-      <el-text class="mx-1" size="large">IOC分析</el-text>
-      <el-table :data="report.threat_analysis.data.ti.data" style="width: 100%; margin-left: 12%">
-        <el-table-column prop="ioc_type" label="类型" width="300" />
-        <el-table-column prop="ioc" label="ioc" width="300" />
-        <el-table-column prop="score" label="恶意评分" width="200" />
-      </el-table>
-
-
-    </el-main>
-
-  </el-container> -->
 </template>
 
 <style>
@@ -1017,5 +1038,80 @@ onMounted(() => {
 
 .danger-row {
   --el-table-tr-bg-color: #f6f8fa;
+}
+
+
+/* 导航栏基础样式 */
+.nav {
+  background-color: #007bff;
+  /* 主题色：蓝色 */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+/* 链接样式 */
+.nav a {
+  color: #fff;
+  /* 链接文字颜色 */
+  font-weight: bold;
+  text-decoration: none;
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* 鼠标悬停效果 */
+.nav a:hover {
+  background-color: #0056b3;
+  /* 深蓝色 */
+  color: #e0f7fa;
+  transform: translateX(10px);
+}
+
+/* 鼠标悬停时的动画效果 */
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #fff;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* 导航栏固定样式 */
+.nav {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+/* 当前激活的导航项样式 */
+.nav a.active {
+  background-color: #0056b3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+
+/* 链接悬停时的渐变效果 */
+.nav a:hover {
+  background-image: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+  color: #fff;
 }
 </style>
