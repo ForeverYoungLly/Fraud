@@ -724,15 +724,19 @@ const permissionTableData = computed(() => {
 
 
 onMounted(() => {
-  fetch(`https://fu.oboard.eu.org/reports/get?id=${id}`)
-    .then((res) =>
-      res.json()
-    ).then((data) => {
-      report.value = data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  const queryData = (more) => {
+    fetch(`https://fu.oboard.eu.org/reports/get${more ? "_more" : ""}?id=${id}`)
+      .then((res) =>
+        res.json()
+      ).then((data) => {
+        report.value = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  queryData();
+  queryData(true);
 
 });
 
@@ -744,8 +748,8 @@ onMounted(() => {
     <div>
       <div>
         <div>
-          <img v-if="report.static_analysis.data.basic_info.file_icon"
-            :src="'data:image/png;base64,' + report.static_analysis.data.basic_info.file_icon" alt="icon"
+          <img v-if="report.static_analysis?.basic_info?.file_icon"
+            :src="'data:image/png;base64,' + report.static_analysis.basic_info.file_icon" alt="icon"
             class="w-16 h-16 mb-2">
           <svg v-else class="w-16 h-16 mb-2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="4301" width="200" height="200">
@@ -774,10 +778,10 @@ onMounted(() => {
         <InformationItem :label="'安装包名'" :value="report.package_name" />
         <InformationItem :label="'MD5'" :value="report.md5" />
         <InformationItem :label="'SHA1'" :value="report.SHA1" />
-        <InformationItem :label="'SHA256'" :value="report.static_analysis.data.basic_info.sha256" />
-        <InformationItem :label="'SHA512'" :value="report.static_analysis.data.basic_info.sha512" />
-        <InformationItem :label="'大小'"
-          :value="(report.static_analysis.data.basic_info.size / 1024 / 1024).toFixed(2) + 'MB'" />
+        <InformationItem :label="'SHA256'" :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
+        <InformationItem :label="'SHA512'" :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
+        <InformationItem :label="'大小'" v-if="report.static_analysis?.basic_info?.size"
+          :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />
         <InformationItem :label="'版本名称'" :value="report.version_name" />
         <InformationItem :label="'目标SDK版本号'" :value="[
@@ -847,14 +851,57 @@ onMounted(() => {
       </div>
 
 
-      <div class="mt-8" v-if="report.static_analysis.data.code_analysis">
+      <div class="mt-8" v-if="report.static_analysis?.code_analysis">
         <InformationItem label="域名线索" value="" />
         <ul>
-          <li v-for="domain in report.static_analysis.data.code_analysis.domains" :key="domain"
-            style="color: deepskyblue;">
+          <li v-for="domain in report.static_analysis.code_analysis.domains" :key="domain" style="color: deepskyblue;">
             {{ domain }}
           </li>
         </ul>
+      </div>
+
+      <div class="mt-8" v-if="report.static_analysis?.code_analysis">
+        <InformationItem label="威胁情报" value="" />
+
+        <el-table border :data="report.threat_analysis.ti.data" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
+          // switch (row.Level) {
+          //   case 0:
+          //     return 'normal-row'
+          //   case 1:
+          //     return 'warning-row'
+          //   case 2:
+          //     return 'danger-row'
+          // }
+          return ''
+        }">
+          <!-- IOC对象	研判意见	情报类型	恶意类型	家族/团伙	标签 -->
+          <el-table-column type="index" width="50" label="#" :index="(i) => i" />
+          <el-table-column prop="ioc" label="IOC对象" />
+          <el-table-column prop="ti_ioc_tag" label="研判意见" />
+          <el-table-column prop="ti_type" label="情报类型" />
+          <el-table-column prop="malicious_type" label="恶意类型" />
+          <el-table-column prop="family" label="家族/团伙" />
+
+
+          <el-table-column prop="tag" label="标签">
+            <template #default="scope">
+              <el-tag v-for="t in scope.row.tag" disable-transitions>{{ t.name }}</el-tag>
+            </template>
+          </el-table-column>
+
+        </el-table>
+      </div>
+
+
+      <div class="mt-8">
+        <InformationItem label="运行截图" value="" />
+        <!-- 横向滚动 -->
+
+        <el-carousel :interval="4000" type="card" height="400px">
+          <el-carousel-item v-for="(screenshot, index) in report.screenshot" :key="index">
+            <img :src="'data:image/png;base64,' + screenshot" :key="index" />
+          </el-carousel-item>
+        </el-carousel>
       </div>
 
     </div>
@@ -907,55 +954,55 @@ onMounted(() => {
 
       <el-descriptions :column="1" border>
         <el-descriptions-item label="评分" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.score }}
+          {{ report.static_analysis.basic_info.score }}
         </el-descriptions-item>
         <el-descriptions-item label="SHA1 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha1 }}
+          {{ report.static_analysis.basic_info.sha1 }}
         </el-descriptions-item>
         <el-descriptions-item label="SHA256 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha256 }}
+          {{ report.static_analysis.basic_info.sha256 }}
         </el-descriptions-item>
         <el-descriptions-item label="SHA512 哈希值" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.sha512 }}
+          {{ report.static_analysis.basic_info.sha512 }}
         </el-descriptions-item>
         <el-descriptions-item label="大小" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.size }}
+          {{ report.static_analysis.basic_info.size }}
         </el-descriptions-item>
         <el-descriptions-item label="ssdeep" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.ssdeep }}
+          {{ report.static_analysis.basic_info.ssdeep }}
         </el-descriptions-item>
         <el-descriptions-item label="类型" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.basic_info.type }}
+          {{ report.static_analysis.basic_info.type }}
         </el-descriptions-item>
       </el-descriptions>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="域名" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.domains }}
+          {{ report.static_analysis.code_analysis.domains }}
         </el-descriptions-item>
         <el-descriptions-item label="所涉及到的邮箱" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.emails }}
+          {{ report.static_analysis.code_analysis.emails }}
         </el-descriptions-item>
         <el-descriptions-item label="IP" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.ips }}
+          {{ report.static_analysis.code_analysis.ips }}
         </el-descriptions-item>
         <el-descriptions-item label="URL" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.code_analysis.urls }}
+          {{ report.static_analysis.code_analysis.urls }}
         </el-descriptions-item>
         <el-descriptions-item label="主要活动" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.metadata.main_activity }}
+          {{ report.static_analysis.metadata.main_activity }}
         </el-descriptions-item>
         <el-descriptions-item label="一般权限" label-align="center" align="center" width="100px" border>
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions.general" :key="activity">
+          <el-text class="mx-1" v-for="activity in report.static_analysis.permissions.general" :key="activity">
             <p>{{ activity }}</p>
           </el-text>
         </el-descriptions-item>
         <el-descriptions-item label="用户权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions.custom" :key="activity">
+          <el-text class="mx-1" v-for="activity in report.static_analysis.permissions.custom" :key="activity">
             <p>{{ activity }}</p>
           </el-text>
         </el-descriptions-item>
         <el-descriptions-item label="敏感权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions
+          <el-text class="mx-1" v-for="activity in report.static_analysis.permissions
             .sensitive" :key="activity">
             <p>{{ activity }}</p>
           </el-text>
@@ -963,21 +1010,21 @@ onMounted(() => {
       </el-descriptions>
       <el-descriptions :column="1" border title="签名">
         <el-descriptions-item label="issuer" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].issuer }}
+          {{ report.static_analysis.signature[0].issuer }}
         </el-descriptions-item>
         <el-descriptions-item label="序列号" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].serial_number }}
+          {{ report.static_analysis.signature[0].serial_number }}
         </el-descriptions-item>
         <el-descriptions-item label="SHA1指纹" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].sha1_fingerprint }}
+          {{ report.static_analysis.signature[0].sha1_fingerprint }}
         </el-descriptions-item>
         <el-descriptions-item label="SHA256指纹" label-align="center" align="center" width="100px">
-          {{ report.static_analysis.data.signature[0].sha256_fingerprint }}
+          {{ report.static_analysis.signature[0].sha256_fingerprint }}
         </el-descriptions-item>
       </el-descriptions>
 
       <el-text class="mx-1" size="large">行为异常分析</el-text>
-      <el-table :data="report.threat_analysis.data.behavior_exception_analyze" style="width: 100%; margin-left: 12%">
+      <el-table :data="report.threat_analysis.behavior_exception_analyze" style="width: 100%; margin-left: 12%">
         <el-table-column prop="description_chinese" label="名称" width="300" />
         <el-table-column prop="name" label="Name" width="300" />
         <el-table-column prop="severity" label="严重程度" width="200" />
@@ -986,7 +1033,7 @@ onMounted(() => {
       <el-text class="mx-1" size="large">敏感权限列表</el-text>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="敏感权限" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in report.static_analysis.data.permissions
+          <el-text class="mx-1" v-for="activity in report.static_analysis.permissions
             .sensitive" :key="activity">
             <p>{{ activity }}</p>
           </el-text>
@@ -994,7 +1041,7 @@ onMounted(() => {
       </el-descriptions>
 
       <el-text class="mx-1" size="large">IOC分析</el-text>
-      <el-table :data="report.threat_analysis.data.ti.data" style="width: 100%; margin-left: 12%">
+      <el-table :data="report.threat_analysis.ti.data" style="width: 100%; margin-left: 12%">
         <el-table-column prop="ioc_type" label="类型" width="300" />
         <el-table-column prop="ioc" label="ioc" width="300" />
         <el-table-column prop="score" label="恶意评分" width="200" />
