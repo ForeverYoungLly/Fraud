@@ -1,9 +1,11 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import InformationItem from "../components/InformationItem.vue";
 
+const route = useRoute();
 // 获取query中的id
-const id = new URLSearchParams(window.location.search).get("id");
+const id = route.query.id;
 
 const report = ref({
   "qid": "AZEXyzXTh6wn_HCy2a_e",
@@ -39,6 +41,7 @@ const report = ref({
       "basic_info": {
         "crc32": "8972157B",
         "detect_et": "2024-07-17 22:57:13",
+        "file_icon": "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",
         "file_tags": [
           "联网行为",
           "高危权限",
@@ -721,25 +724,84 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-container>
+  <div class="flex flex-col">
+    <div class="flex flex-row justify-between items-center mb-4 ">
+      <div class="">
+        <img v-if="report.static_analysis.data.basic_info.file_icon"
+          :src="'data:image/png;base64,' + report.static_analysis.data.basic_info.file_icon" alt="icon"
+          class="w-16 h-16 mb-2">
+
+        <InformationItem :label="'应用名称'" :value="report.application_name" />
+        <InformationItem :label="'安装包名'" :value="report.package_name" />
+        <InformationItem :label="'MD5'" :value="report.md5" />
+        <InformationItem :label="'SHA1'" :value="report.SHA1" />
+        <InformationItem :label="'SHA256'" :value="report.static_analysis.data.basic_info.sha256" />
+        <InformationItem :label="'SHA512'" :value="report.static_analysis.data.basic_info.sha512" />
+        <InformationItem :label="'大小'"
+          :value="(report.static_analysis.data.basic_info.size / 1024 / 1024).toFixed(2) + 'MB'" />
+        <InformationItem :label="'版本编号'" :value="report.version_code" />
+        <InformationItem :label="'版本名称'" :value="report.version_name" />
+        <InformationItem :label="'目标SDK版本号'" :value="[
+          'Android 1.0 Astro',
+          'Android 1.0 Bender',
+          'Android 1.1 Petit Four',
+          'Android 1.5 Cupcake',
+          'Android 1.6 Donut',
+          'Android 2.0 Eclair',
+          'Android 2.0.1 Eclair_MR1',
+          'Android 2.1 Eclair_MR2',
+          'Android 2.2 Froyo',
+          'Android 2.3 Gingerbread',
+          'Android 2.3.3 Gingerbread_MR1',
+          'Android 3.0 Honeycomb',
+          'Android 3.1 Honeycomb_MR1',
+          'Android 3.2 Honeycomb_MR2',
+          'Android 4.0 Ice Cream Sandwich',
+          'Android 4.0.3 Ice Cream Sandwich_MR1',
+          'Android 4.1 Jelly Bean',
+          'Android 4.2 Jelly Bean_MR1',
+          'Android 4.3 Jelly Bean_MR2',
+          'Android 4.4 KitKat',
+          'Android 4.4W KitKat Wear',
+          'Android 5.0 Lollipop',
+          'Android 5.1 Lollipop',
+          'Android 6.0 Marshmallow',
+          'Android 7.0 Nougat',
+          'Android 7.1 Nougat',
+          'Android 8.0 Oreo',
+          'Android 8.1 Oreo',
+          'Android 9 Pie',
+          'Android 10 Q',
+          'Android 11 R',
+          'Android 12 S',
+          'Android 13 T',
+          'Android 14 U',
+          'Android 15 V',
+          'Android 16 W',
+          'Android 17 X',
+          'Android 18 Y',
+        ]
+        [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
+      </div>
+    </div>
+  </div>
+
+  <!-- <el-container>
     <el-main>
-      <el-descriptions title="AI检测结果" :column="1" border>
-        <el-descriptions-item label="AI检测结果" label-align="center" align="center" label-class-name="my-label"
+      <el-descriptions title="AI 检测结果" :column="1" border>
+        <el-descriptions-item label="AI 检测结果" label-align="center" align="center" label-class-name="my-label"
           class-name="my-content" width="30px">
           <pre style="text-align: left; white-space: pre-wrap;">{{ report.ai_response }}</pre>
         </el-descriptions-item>
       </el-descriptions>
-      <el-descriptions title="该Apk分析得出" :column="2" border>
-        <el-descriptions-item label="apkid" label-align="center" align="center" width="100px">
-          {{ report.qid }}
-        </el-descriptions-item>
+      <el-descriptions title="该 APK 分析得出" :column="2" border>
         <el-descriptions-item label="应用名称" label-align="center" align="center" width="100px" class-name="my-content">
           {{ report.application_name }}
         </el-descriptions-item>
         <el-descriptions-item label="安装包名" label-align="center" align="center" width="100px">
           {{ report.package_name }}
         </el-descriptions-item>
-        <el-descriptions-item label="md5" label-align="center" align="center">
+        <el-descriptions-item label="MD5" label-align="center" align="center">
           {{ report.md5 }}
         </el-descriptions-item>
         <el-descriptions-item label="版本编号" label-align="center" align="center">
@@ -757,8 +819,8 @@ onMounted(() => {
           {{ report.SHA1 }}
         </el-descriptions-item>
         <el-descriptions-item label="活动列表" label-align="center" align="center" width="100px">
-          <el-text class="mx-1" v-for="activity in activities" :key="activity">
-            <p>{{ report.activity }}</p>
+          <el-text class="mx-1" v-for="activity in report.activities" :key="activity">
+            <p>{{ activity }}</p>
           </el-text>
         </el-descriptions-item>
         <el-descriptions-item label="权限列表" label-align="center" align="center" width="100px">
@@ -772,13 +834,13 @@ onMounted(() => {
         <el-descriptions-item label="评分" label-align="center" align="center" width="100px">
           {{ report.static_analysis.data.basic_info.score }}
         </el-descriptions-item>
-        <el-descriptions-item label="SHA1哈希值" label-align="center" align="center" width="100px">
+        <el-descriptions-item label="SHA1 哈希值" label-align="center" align="center" width="100px">
           {{ report.static_analysis.data.basic_info.sha1 }}
         </el-descriptions-item>
-        <el-descriptions-item label="SHA256哈希值" label-align="center" align="center" width="100px">
+        <el-descriptions-item label="SHA256 哈希值" label-align="center" align="center" width="100px">
           {{ report.static_analysis.data.basic_info.sha256 }}
         </el-descriptions-item>
-        <el-descriptions-item label="SHA512哈希值" label-align="center" align="center" width="100px">
+        <el-descriptions-item label="SHA512 哈希值" label-align="center" align="center" width="100px">
           {{ report.static_analysis.data.basic_info.sha512 }}
         </el-descriptions-item>
         <el-descriptions-item label="大小" label-align="center" align="center" width="100px">
@@ -866,7 +928,7 @@ onMounted(() => {
 
     </el-main>
 
-  </el-container>
+  </el-container> -->
 </template>
 
 <style scoped>
