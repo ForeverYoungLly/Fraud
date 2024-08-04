@@ -12,9 +12,9 @@ const report = ref({
   "qid": "AZEXyzXTh6wn_HCy2a_e",
   "application_name": "...",
   "package_name": "...",
-  "md5": "c374640943758dd011ccf4d808c8c243",
-  "version_code": "1209145400",
-  "version_name": "4.0.0",
+  "md5": "...",
+  "version_code": "...",
+  "version_name": "...",
   "target_sdk_version": "32",
   "architecture": {
     "armeabi": false,
@@ -23,15 +23,9 @@ const report = ref({
     "x86": false,
     "x86_64": false
   },
-  "SHA1": "2D D3 0F C2 1A 4A D8 AA DF CA 3B 63 FA DE 8C 36 A0 49 14 D6",
+  "SHA1": "...",
   "permissions": [
-    "android.permission.READ_MEDIA_AUDIO",
-    "android.permission.INTERNET",
-    "android.permission.CAMERA",
-    "android.permission.READ_MEDIA_VIDEO",
-    "android.permission.WRITE_EXTERNAL_STORAGE",
-    "android.permission.READ_MEDIA_IMAGES",
-    "android.permission.READ_EXTERNAL_STORAGE"
+    "android.permission...",
   ],
   "activities": [
     "com.example.android_web.WelcomeActivity"
@@ -42,19 +36,18 @@ const report = ref({
       "basic_info": {
         "crc32": "8972157B",
         "detect_et": "2024-07-17 22:57:13",
-        "file_icon": "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",
         "file_tags": [
           "联网行为",
           "高危权限",
           "普通行为"
         ],
-        "md5": "c374640943758dd011ccf4d808c8c243",
+        "md5": "...",
         "name": "8ca891bccf4a86dc8a7cc16bc73e5fdc5435a5cd.apk",
         "score": 6,
-        "sha1": "6fbe0d9f3f8481eb27e02ba0ea36be35319e15b8",
-        "sha256": "a2134089913ef678e8466cfc71be1ee5679ef526f39c16d958343f06ce7a0f0a",
-        "sha512": "c06dba179361a349e5fc73f96ba67343a8fcf3609d7711bcbae10b9eeb670fb54910d8cfdae15d878988b01b52f05dc2021a4b54dc70b697340a72890d57a8b2",
-        "size": 2031457,
+        "sha1": "...",
+        "sha256": "...",
+        "sha512": "...",
+        "size": 0,
         "ssdeep": "24576:3udhmItVSx8qYpb9OUxLGeNzlCd6GN3msQT1IREsQT1IRZ7PCgp5zfry+n4qmuW0:6hmkqa0eNu2FiREFiRZWgp5zfryDt0",
         "trid": [
           "73.9% (.APK) Android Package (52500/1/12)",
@@ -715,7 +708,6 @@ const permissionTableData = computed(() => {
     const androidPermission = android_permissions.find(
       (p) => p.Key === permission
     );
-    console.log(androidPermission);
     if (androidPermission) {
       data.push(androidPermission);
     } else {
@@ -736,7 +728,6 @@ onMounted(() => {
     .then((res) =>
       res.json()
     ).then((data) => {
-      console.log(data);
       report.value = data;
     })
     .catch((error) => {
@@ -831,10 +822,11 @@ onMounted(() => {
         ]
         [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
 
+        <div class="mt-8">
+          <InformationItem label="权限列表" value="" />
 
-        <div>
           <el-table border :data="permissionTableData" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
-            console.log(row.Level)
+
             switch (row.Level) {
               case 0:
                 return 'normal-row'
@@ -855,7 +847,18 @@ onMounted(() => {
       </div>
 
 
+      <div class="mt-8" v-if="report.static_analysis.data.code_analysis">
+        <InformationItem label="域名线索" value="" />
+        <ul>
+          <li v-for="domain in report.static_analysis.data.code_analysis.domains" :key="domain"
+            style="color: deepskyblue;">
+            {{ domain }}
+          </li>
+        </ul>
+      </div>
+
     </div>
+
   </div>
 
   <!-- <el-container>
