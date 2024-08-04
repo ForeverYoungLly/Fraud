@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-row gap-2 items-center">
-        <span class="bg-gray-700 text-sm rounded-md px-2 py-1 text-gray-200 font-bold my-1">
+    <div class="my-2">
+        <span class="bg-gray-700 text-sm rounded-md px-2 py-1 text-gray-200 font-bold">
             {{ label }}
         </span>
-        <p class="text-sm">{{ value }}</p>
+        <span class="text-sm m-2">{{ value }}</span>
     </div>
 </template>
 
