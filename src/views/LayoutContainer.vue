@@ -21,7 +21,7 @@ onMounted(() => {});
       >
         <el-menu-item index="/PlatformIntroduce">
           <el-icon><Files /></el-icon>
-          <span>平台介绍</span>
+          <span>首页</span>
         </el-menu-item>
         <el-menu-item index="/ApkParsing">
           <el-icon><Files /></el-icon>

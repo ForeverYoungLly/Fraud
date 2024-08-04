@@ -23,7 +23,7 @@ const pushApkParsing = () => {
           <p style="margin-top: 0px;">"普通民众也能轻松分析违法APK"</p>
         </div>
       </div>
-      <el-divider style="margin-top: 230px;"></el-divider>
+      <el-divider style="margin-top: 220px;"></el-divider>
       <div style="display: flex; justify-content: center;">
         <img src="@/assets/report.png" alt="Logo" style="width: 80px;" />
         <h1 style="margin-left: 40px; color: rgb(12, 53, 101);">最近分析</h1>
