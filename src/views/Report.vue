@@ -782,6 +782,28 @@ const downloadReport = () => {
 };
 
 
+// const decompileResult = ref({
+//   "download_url": undefined,
+// });
+
+// const decompileLoading = ref(false);
+// const decompileFileList = ref([]);
+
+// function handleDecompileDownload() {
+//   // 下载decompileResult
+
+//   const url = decompileResult.value.download_url;
+//   if (url) {
+//     window.open(url);
+//   }
+// }
+
+// function handleDecompileSuccess(data) {
+//   decompileResult.value = data;
+//   decompileLoading.value = false;
+// }
+
+
 </script>
 
 <template>
@@ -793,6 +815,7 @@ const downloadReport = () => {
       <a href="#threat" :class="{ active: currentSection === 'threat' }">威胁情报</a>
       <a href="#domain" :class="{ active: currentSection === 'domain' }">域名线索</a>
       <a href="#screenshot" :class="{ active: currentSection === 'screenshot' }">运行截图</a>
+      <!-- <a href="#decompile" :class="{ active: currentSection === 'decompile' }">反编译</a> -->
       <a href="#behavior" :class="{ active: currentSection === 'behavior' }">行为信息</a>
     </div>
     <div class="px-[200px] py-8" id="printPage">
@@ -1033,6 +1056,25 @@ const downloadReport = () => {
         </div>
       </section>
 
+
+      <!-- <section id="decompile" class="mt-8">
+        <InformationItem label="反编译结果" value="" />
+        <el-loading :fullscreen="false" :loading="decompileLoading" text="正在反编译...">
+
+        </el-loading>
+          <el-upload class="mt-2" action="https://fu.oboard.eu.org/upload_to_decompile" :multiple="false" :file-list="decompileFileList"
+            :on-success="handleDecompileSuccess" :before-upload="beforeDecompileUpload">
+            <el-button type="primary">点击上传 APK 文件开始反编译</el-button>
+            <div class="el-upload__tip" slot="tip" style="color: #666">
+              只支持 .apk 格式文件
+            </div>
+          </el-upload>
+          <div v-if="decompileResult.download_url">
+            <el-button type="primary" @click="handleDecompileDownload">下载反编译结果</el-button>
+          </div>
+
+
+      </section> -->
 
       <section id="behavior" class="mt-8" v-if="report?.host_behavior?.hostbehavior?.api_binder">
         <InformationItem label="行为分析" value="" />
