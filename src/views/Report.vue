@@ -5,6 +5,7 @@ import { useRoute } from "vue-router";
 import InformationItem from "../components/InformationItem.vue";
 import { android_permissions } from "../utils/permissions";
 import JsPdfImg from "html2pdf-img";
+import NetworkBehavior from '../components/NetworkBehavior.vue';
 
 const currentSection = ref('basic');
 
@@ -813,6 +814,9 @@ const downloadReport = () => {
       <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
       <a href="#permission" :class="{ active: currentSection === 'permission' }">权限列表</a>
       <a href="#threat" :class="{ active: currentSection === 'threat' }">威胁情报</a>
+      <a href="#behavior_exception_analyze"
+        :class="{ active: currentSection === 'behavior_exception_analyze' }">行为异常分析</a>
+      <a href="#network" :class="{ active: currentSection === 'network' }">网络分析</a>
       <a href="#domain" :class="{ active: currentSection === 'domain' }">域名线索</a>
       <a href="#screenshot" :class="{ active: currentSection === 'screenshot' }">运行截图</a>
       <!-- <a href="#decompile" :class="{ active: currentSection === 'decompile' }">反编译</a> -->
@@ -1038,6 +1042,48 @@ const downloadReport = () => {
         </el-table>
       </section>
 
+      <section id="behavior_exception_analyze" class="mt-8" v-if="report.threat_analysis?.behavior_exception_analyze">
+        <InformationItem label="行为异常分析" value="" />
+        <el-table :data="report.threat_analysis?.behavior_exception_analyze" border style="width: 100%">
+          <el-table-column prop="description_chinese" label="威胁描述" width="300">
+          </el-table-column>
+          <el-table-column prop="severity" label="严重级别" width="120">
+            <template v-slot="scope">
+              <el-tag :type="(severity) => {
+                switch (severity) {
+                  case 1:
+                    return 'success';
+                  case 2:
+                    return 'warning';
+                  case 3:
+                    return 'danger';
+                  default:
+                    return '';
+                }
+              }">
+                {{ scope.row.severity }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="内容">
+            <template v-slot="scope">
+              <el-table :data="scope.row.content" border v-if="scope.row.content.length > 0" style="width: 100%">
+                <el-table-column prop="method" label="方法">
+                </el-table-column>
+                <el-table-column prop="value" label="值">
+                </el-table-column>
+              </el-table>
+              <span v-else>无内容</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </section>
+
+      <section id="network" class="mt-8" v-if="report.network_behavior">
+        <InformationItem label="网络分析" value="" />
+        <NetworkBehavior :networkData="report.network_behavior" />
+      </section>
+
       <section id="domain" class="mt-8" v-if="report.static_analysis?.code_analysis">
         <InformationItem label="域名线索" value="" />
         <ul>
@@ -1106,7 +1152,7 @@ const downloadReport = () => {
 
 </template>
 
-<style>
+<style scoped>
 .normal-row {
   --el-table-tr-bg-color: #e4f3e5;
 }

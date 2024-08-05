@@ -12,11 +12,13 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@types/node": "^20.14.10",
     "axios": "^1.7.2",
+    "echarts": "^5.5.1",
     "element-plus": "^2.7.6",
     "html2pdf-img": "^1.0.2",
     "markdown-vue": "^1.0.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-echarts": "^7.0.1",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
