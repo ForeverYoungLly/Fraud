@@ -14,7 +14,7 @@ defineOptions({ name: "Upload" });
 
 const changeFile = (file) => {
   ElMessage({
-    message: '上传成功，正全力解析，请耐心等待',
+    message: '正在上传，请耐心等待',
     type: 'success',
   })
   loading.value = !loading.value;
@@ -38,32 +38,6 @@ const changeFile = (file) => {
           id: res.data.id
         }
       })
-
-
-
-      // axios
-      //   .get(`https://fu.oboard.eu.org/reports/get?id=${fileId.value}`)
-      //   // .get("https://fu.oboard.eu.org/reports/get?id=AZDJL89Sh6wn_HCy2Qg9")
-      //   .then((response) => {
-      //     dialogTableVisible.value = !dialogTableVisible.value;
-
-      //     AIResponse.value = response.data.ai_response
-      //     md5.value = response.data.md5;
-      //     target_sdk_version.value = response.data.target_sdk_version;
-      //     application_name.value = response.data.application_name;
-      //     qid.value = response.data.qid;
-      //     package_name.value = response.data.package_name;
-      //     version_code.value = response.data.version_code;
-      //     version_name.value = response.data.version_name;
-      //     SHA1.value = response.data.SHA1;
-      //     permissions.value = response.data.permissions;
-      //     activities.value = response.data.activities;
-      //     StaticAnalysis.value = response.data.static_analysis.data;
-      //     ThreatAnalysis.value = response.data.threat_analysis.data;
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
     }
   });
 };

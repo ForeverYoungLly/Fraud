@@ -5,11 +5,25 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-onMounted(() => {});
+onMounted(() => { });
 </script>
 
 <template>
-  <el-container class="layout-container">
+  <el-container>
+    <el-header>
+      <el-menu :default-active="activeIndex2" class="el-menu-demo items-center" mode="horizontal"
+        background-color="rgb(2, 53, 101)" text-color="#E4E7ED" active-text-color="#ffd04b" @select="handleSelect"
+        router="true">
+        <el-menu-item index="/">首页</el-menu-item>
+        <el-menu-item index="/ApkParsing">APK解析</el-menu-item>
+        <el-menu-item index="/ApkList">黑白名单列表</el-menu-item>
+        <el-menu-item index="/report?id=AZDBMuxdONZSmF3-yNo9#basic">样例 Demo</el-menu-item>
+        <h1 class="text-white pl-4">
+          诈骗终结者——涉诈APK智能识别系统
+        </h1>
+      </el-menu>
+    </el-header>
+    <!--    
     <el-aside width="200px">
       <div class="el-aside__logo"></div>
       <el-menu
@@ -32,69 +46,13 @@ onMounted(() => {});
           <span>黑白名单列表</span>
         </el-menu-item>
       </el-menu>
-    </el-aside>
-    <el-container>
-      <el-header style="display: flex; align-items: center; justify-content: center;">
-        <h2 style="text-align: center;">诈骗终结者——涉诈APK智能识别系统</h2>
-        <div class="block" style="margin-left: 16px">
-          <el-avatar
-            :size="30"
-            src="https://pic.616pic.com/ys_img/00/05/82/I2Pgna6kwf.jpg"
-          />
-        </div>
-      </el-header>
-      <el-main>
-        <router-view></router-view>
-      </el-main>
-    </el-container>
+    </el-aside> -->
+    <router-view></router-view>
   </el-container>
 </template>
 
-<style lang="scss" scoped>
-.layout-container {
-  height: 100vh;
-  .el-aside {
-    background-color: rgb(12, 81, 150);
-    &__logo {
-      height: 120px;
-      background: url("@/assets/诈骗终结者.png") no-repeat center / 120px auto;
-    }
-    .el-menu {
-      border-right: none;
-      background-color: rgb(12, 81, 150);
-    }
-    .el-menu :hover{
-      border-right: none;
-      background-color: rgb(2, 56, 110);
-    }
-  }
-  .el-header {
-    padding-right: 10vw;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    // justify-content: space-between;
-    justify-content: end;
-    .el-dropdown__box {
-      display: flex;
-      align-items: center;
-      .el-icon {
-        color: #999;
-        margin-left: 10px;
-      }
-
-      &:active,
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-  .el-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #666;
-  }
+<style scoped>
+.el-header {
+  --el-header-padding: 0;
 }
 </style>

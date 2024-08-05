@@ -32,194 +32,127 @@ const getlist = () => {
 </script>
 
 <template>
-  <el-container>
-    <el-header>
-      <el-menu
-        :default-active="activeIndex2"
-        class="el-menu-demo"
-        mode="horizontal"
-        background-color="rgb(2, 53, 101)"
-        text-color="#E4E7ED"
-        active-text-color="#ffd04b"
-        @select="handleSelect"
-        router="true"
-      >
-        <el-menu-item index="/PlatformIntroduce">首页</el-menu-item>
-        <el-menu-item index="/ApkParsing">APK解析</el-menu-item>
-        <el-menu-item index="/ApkList">黑白名单列表</el-menu-item>
-        <h1
-          style="
-            margin-top: 20px;
-            margin-left: 22%;
-            font-weight: bolder;
-            font-size: large;
-          "
-        >
-          诈骗终结者——涉诈APK智能识别系统
-        </h1>
-      </el-menu>
-    </el-header>
-    <el-main>
-      <div class="logo">
-        <img src="@/assets/bg.png" alt="Logo" />
-      </div>
-      <div class="content">
-        <div class="btn">
-          <el-button
-            type="primary"
-            style="
+  <el-main>
+    <div class="logo">
+      <img src="@/assets/bg.png" alt="Logo" />
+    </div>
+    <div class="content">
+      <div class="btn">
+        <el-button type="primary" style="
               font-size: larger;
               background-color: rgb(12, 53, 101);
               margin-top: 300px;
               height: 65px;
-            "
-            @click="pushApkParsing"
-            >上传可疑APK & 查线索<i class="el-icon-upload el-icon--right"></i
-          ></el-button>
-          <p style="margin-top: 0px">
-            <em class="type">"普通民众也能轻松分析违法APK"</em>
-          </p>
-        </div>
+            " @click="pushApkParsing">上传可疑APK & 查线索<i class="el-icon-upload el-icon--right"></i></el-button>
+        <p style="margin-top: 0px">
+          <em class="type">"普通民众也能轻松分析违法APK"</em>
+        </p>
       </div>
-      <el-divider style="margin-top: 220px"></el-divider>
-      <div style="display: flex; justify-content: center">
-        <img src="@/assets/report.png" alt="Logo" style="width: 80px" />
-        <h1
-          style="
+    </div>
+    <el-divider style="margin-top: 220px"></el-divider>
+    <div style="display: flex; justify-content: center">
+      <img src="@/assets/report.png" alt="Logo" style="width: 80px" />
+      <h1 style="
             margin-left: 40px;
             margin-top: 20px;
             font-size: larger;
             font-weight: bolder;
             color: rgb(12, 53, 101);
-          "
-        >
-          最近分析
-        </h1>
-      </div>
-      <p style="color: #909399; margin-top: 20px">
-        <em style="color: red">*</em
-        ><em
-          >下述仅为访客的分析记录，如果您不想在此显示自己的分析记录，请登录用户账号后再上传分析</em
-        ><em style="color: red">*</em>
-      </p>
-      <div
-        style="
+          ">
+        最近分析
+      </h1>
+    </div>
+    <p style="color: #909399; margin-top: 20px">
+      <em style="color: red">*</em><em>下述仅为访客的分析记录，如果您不想在此显示自己的分析记录，请登录用户账号后再上传分析</em><em style="color: red">*</em>
+    </p>
+    <div style="
           display: flex;
           justify-content: center;
           margin-bottom: 10px;
           margin-top: 50px;
-        "
-      >
-        <el-table
-          :data="ListData"
-          border
-          ref="myTable"
-          style="width: 75%; margin-bottom: 100px"
-        >
-          <el-table-column prop="qid" label="id" width="230">
-            <!-- <template #default="scope">
+        ">
+      <el-table :data="ListData" border ref="myTable" style="width: 75%; margin-bottom: 100px">
+        <el-table-column prop="qid" label="id" width="230">
+          <!-- <template #default="scope">
               <div style="display: flex; align-items: center">
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
               </div>
             </template> -->
-          </el-table-column>
-          <el-table-column prop="application_name" label="软件名称" width="140">
-          </el-table-column>
-          <el-table-column prop="package_name" label="下载包名" width="240">
-          </el-table-column>
-          <el-table-column prop="md5" label="md5" width="300"></el-table-column>
-          <el-table-column
-            prop="target_sdk_version"
-            label="目标版本号"
-            width="100"
-          ></el-table-column>
-          <el-table-column label="操作" min-width="80">
-            <template v-slot="scope">
-              <el-button
-                link
-                type="primary"
-                size="small"
-                @click="toReport(scope.row.qid)"
-                >查看报告</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <el-divider></el-divider>
-      <div style="display: flex; justify-content: center; margin-bottom: 20px">
-        <el-icon :size="30"><Setting /></el-icon>
-        <h1
-          style="
+        </el-table-column>
+        <el-table-column prop="application_name" label="软件名称" width="140">
+        </el-table-column>
+        <el-table-column prop="package_name" label="下载包名" width="240">
+        </el-table-column>
+        <el-table-column prop="md5" label="md5" width="300"></el-table-column>
+        <el-table-column prop="target_sdk_version" label="目标版本号" width="100"></el-table-column>
+        <el-table-column label="操作" min-width="80">
+          <template v-slot="scope">
+            <el-button link type="primary" size="small" @click="toReport(scope.row.qid)">查看报告</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <el-divider></el-divider>
+    <div style="display: flex; justify-content: center; margin-bottom: 20px">
+      <el-icon :size="30">
+        <Setting />
+      </el-icon>
+      <h1 style="
             margin-left: 30px;
             font-size: larger;
             font-weight: bolder;
             color: rgb(12, 53, 101);
-          "
-        >
-          技术优势
-        </h1>
-      </div>
-      <!-- 第一张图 -->
-      <div>
-        <h1
-          style="
+          ">
+        技术优势
+      </h1>
+    </div>
+    <!-- 第一张图 -->
+    <div>
+      <h1 style="
             font-size: larger;
             font-weight: bolder;
             color: rgb(12, 53, 101);
             margin-bottom: 50px;
-          "
-        >
-          AI赋能、精准破解
-        </h1>
-        <img
-          style="
+          ">
+        AI赋能、精准破解
+      </h1>
+      <img style="
             width: 70%;
             display: block;
             margin-left: auto;
             margin-right: auto;
-          "
-          src="@/assets/2.png"
-        />
-      </div>
-      <!-- 第二张图 -->
-      <div style="margin-top: 100px; margin-bottom: 80px">
-        <h1
-          style="
+          " src="@/assets/2.png" />
+    </div>
+    <!-- 第二张图 -->
+    <div style="margin-top: 100px; margin-bottom: 80px">
+      <h1 style="
             font-size: larger;
             font-weight: bolder;
             color: rgb(12, 53, 101);
             margin-bottom: 50px;
-          "
-        >
-          解析全面、专业科学
-        </h1>
-        <img
-          style="
+          ">
+        解析全面、专业科学
+      </h1>
+      <img style="
             width: 70%;
             display: block;
             margin-left: auto;
             margin-right: auto;
-          "
-          src="@/assets/1.jpg"
-        />
-      </div>
-      <el-divider></el-divider>
-      <!-- 关于我的文字阐述 -->
-      <div>
-        <h1 style="color: rgb(12, 53, 101)">关于我们</h1>
-        <P class="aboutme">社会治安好了，网上的骗子越来越多。</P>
-        <P class="aboutme">罪犯通常用手机APP来操作花样百出的网上诈骗和赌博</P>
-        <P class="aboutme">受害者和警察同志饱受其害。</P>
-        <P class="aboutme"
-          >然而因专业技术有限，不是每个人都能对手机APK进行反编译。</P
-        >
-        <p class="aboutme">
-          因此，诈骗终结者自动化APK违法线索分析平台，应运而生。
-        </p>
-      </div>
-    </el-main>
-  </el-container>
+          " src="@/assets/1.jpg" />
+    </div>
+    <el-divider></el-divider>
+    <!-- 关于我的文字阐述 -->
+    <div>
+      <h1 style="color: rgb(12, 53, 101)">关于我们</h1>
+      <P class="aboutme">社会治安好了，网上的骗子越来越多。</P>
+      <P class="aboutme">罪犯通常用手机APP来操作花样百出的网上诈骗和赌博</P>
+      <P class="aboutme">受害者和警察同志饱受其害。</P>
+      <P class="aboutme">然而因专业技术有限，不是每个人都能对手机APK进行反编译。</P>
+      <p class="aboutme">
+        因此，诈骗终结者自动化APK违法线索分析平台，应运而生。
+      </p>
+    </div>
+  </el-main>
 </template>
 
 <style scoped>
