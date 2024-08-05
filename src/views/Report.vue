@@ -798,7 +798,10 @@ const downloadReport = () => {
     <div class="px-[200px] py-8" id="printPage">
       <section id="basic">
         <div class="flex flex-row gap-2 items-center justify-between">
-          <div class="flex flex-row gap-2 items-center">
+          <div class="flex flex-row gap-3 items-center mb-4">
+
+            <CircleIndicator v-if="report.static_analysis?.basic_info?.score"
+              :score="report.static_analysis?.basic_info?.score" />
             <img v-if="report.static_analysis?.basic_info?.file_icon"
               :src="'data:image/png;base64,' + report.static_analysis.basic_info.file_icon" alt="icon"
               class="w-16 h-16 mb-2">
@@ -972,7 +975,7 @@ const downloadReport = () => {
         </el-table>
       </section>
 
-      <section id="threat" class="mt-8" v-if="report.static_analysis?.code_analysis">
+      <section id="threat" class="mt-8" v-if="report.threat_analysis?.ti?.data">
         <InformationItem label="威胁情报" value="" />
 
         <el-table border :data="report.threat_analysis.ti.data" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
