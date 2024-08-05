@@ -7,6 +7,17 @@
     </div>
 </template>
 
+<style>
+.nav{
+    background-color: rgb(52, 58, 64) !important;
+}
+
+.nav a.active{
+    background-color: rgb(0, 123, 255) !important;
+}
+
+</style>
+
 <script setup>
 import { defineProps } from "vue";
 

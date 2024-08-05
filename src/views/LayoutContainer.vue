@@ -18,7 +18,7 @@ onMounted(() => { });
         <el-menu-item index="/ApkParsing">APK解析</el-menu-item>
         <el-menu-item index="/ApkList">黑白名单列表</el-menu-item>
         <el-menu-item index="/report?id=AZDBMuxdONZSmF3-yNo9#basic">样例 Demo</el-menu-item>
-        <h1 class="text-white pl-4">
+        <h1 class="text-white pl-4" style="margin-left: 10%; font-weight: bolder; font-size: large;">
           诈骗终结者——涉诈APK智能识别系统
         </h1>
       </el-menu>
