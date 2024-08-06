@@ -6,6 +6,7 @@ import InformationItem from "../components/InformationItem.vue";
 import { android_permissions } from "../utils/permissions";
 import JsPdfImg from "html2pdf-img";
 import NetworkBehavior from '../components/NetworkBehavior.vue';
+import { android_versions } from '../utils/android_versions';
 
 const currentSection = ref('basic');
 
@@ -732,16 +733,15 @@ onMounted(() => {
   const main = window;
   main.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('section');
-    let scrollPosition = main.scrollY + 100;
-    console.log(scrollPosition)
-    sections.forEach(section => {
+    const scrollPosition = main.scrollY + 100;
+    for (const section of sections) {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
 
       if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
         currentSection.value = section.getAttribute('id');
       }
-    });
+    }
   });
 
 
@@ -765,7 +765,7 @@ onMounted(() => {
 const downloadReport = () => {
   // 把当前页面转换为pdf下载
 
-  new JsPdfImg("#printPage", new Date().toLocaleString() + ".pdf", {
+  new JsPdfImg("#printPage", `${new Date().toLocaleString()}.pdf`, {
     pageBreak: ["section"], // 当导出pdf时候，这个参数必填
     pageStartOffset: 20, // 每个页头的留空距离
     watermarkOption: {
@@ -936,48 +936,16 @@ const downloadReport = () => {
           :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />
         <InformationItem :label="'版本名称'" :value="report.version_name" />
-        <InformationItem :label="'目标SDK版本号'" :value="[
-          'Android 1.0 Astro',
-          'Android 1.0 Bender',
-          'Android 1.1 Petit Four',
-          'Android 1.5 Cupcake',
-          'Android 1.6 Donut',
-          'Android 2.0 Eclair',
-          'Android 2.0.1 Eclair_MR1',
-          'Android 2.1 Eclair_MR2',
-          'Android 2.2 Froyo',
-          'Android 2.3 Gingerbread',
-          'Android 2.3.3 Gingerbread_MR1',
-          'Android 3.0 Honeycomb',
-          'Android 3.1 Honeycomb_MR1',
-          'Android 3.2 Honeycomb_MR2',
-          'Android 4.0 Ice Cream Sandwich',
-          'Android 4.0.3 Ice Cream Sandwich_MR1',
-          'Android 4.1 Jelly Bean',
-          'Android 4.2 Jelly Bean_MR1',
-          'Android 4.3 Jelly Bean_MR2',
-          'Android 4.4 KitKat',
-          'Android 4.4W KitKat Wear',
-          'Android 5.0 Lollipop',
-          'Android 5.1 Lollipop',
-          'Android 6.0 Marshmallow',
-          'Android 7.0 Nougat',
-          'Android 7.1 Nougat',
-          'Android 8.0 Oreo',
-          'Android 8.1 Oreo',
-          'Android 9 Pie',
-          'Android 10 Q',
-          'Android 11 R',
-          'Android 12 S',
-          'Android 13 T',
-          'Android 14 U',
-          'Android 15 V',
-          'Android 16 W',
-          'Android 17 X',
-          'Android 18 Y',
-        ]
+        <InformationItem label="Android平台最低版本" v-if="report.static_analysis?.metadata?.min_sdk_version"
+          :value="report.static_analysis.metadata.min_sdk_version" />
+        <InformationItem label="Android平台最高版本" v-if="report.static_analysis?.metadata?.max_sdk_version"
+          :value="report.static_analysis.metadata.max_sdk_version" />
+        <InformationItem label="目标Android平台版本" :value="android_versions
         [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
-
+        <InformationItem label="主Activity" v-if="report.static_analysis?.metadata?.main_activity"
+          :value="report.static_analysis.metadata.main_activity" />
+        <InformationItem label="签名失效时间" v-if="report.static_analysis?.signature?.end_time"
+          :value="report.static_analysis.signature.end_time" />
       </section>
 
       <section id="permission" class="mt-8">
@@ -1151,92 +1119,3 @@ const downloadReport = () => {
   </div>
 
 </template>
-
-<style scoped>
-.normal-row {
-  --el-table-tr-bg-color: #e4f3e5;
-}
-
-.warning-row {
-  --el-table-tr-bg-color: #fff7da;
-}
-
-.danger-row {
-  --el-table-tr-bg-color: #f6f8fa;
-}
-
-
-/* 导航栏基础样式 */
-.nav {
-  background-color: #007bff;
-  /* 主题色：蓝色 */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-/* 链接样式 */
-.nav a {
-  color: #fff;
-  /* 链接文字颜色 */
-  font-weight: bold;
-  text-decoration: none;
-  margin: 10px 0;
-  padding: 10px 15px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-/* 鼠标悬停效果 */
-.nav a:hover {
-  background-color: #0056b3;
-  /* 深蓝色 */
-  color: #e0f7fa;
-  transform: translateX(10px);
-}
-
-/* 鼠标悬停时的动画效果 */
-.nav a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-  background-color: #fff;
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.nav a:hover::after {
-  transform: scaleX(1);
-}
-
-/* 导航栏固定样式 */
-.nav {
-  position: fixed;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-
-/* 当前激活的导航项样式 */
-.nav a.active {
-  background-color: #0056b3;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
-}
-
-
-/* 链接悬停时的渐变效果 */
-.nav a:hover {
-  background-image: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
-  color: #fff;
-}
-</style>
