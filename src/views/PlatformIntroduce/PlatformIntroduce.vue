@@ -24,7 +24,7 @@ onMounted(() => {
 
 const ListData = ref([]);
 const getlist = () => {
-  axios.get(`http://8.138.83.46/reports/list`).then((response) => {
+  axios.get(`http://8.138.83.46:5000/reports/list`).then((response) => {
     ListData.value = response.data;
     console.log(response.data);
   });

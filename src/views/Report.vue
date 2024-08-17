@@ -746,7 +746,7 @@ onMounted(() => {
 
 
   const queryData = (more) => {
-    fetch(`http://8.138.83.46/reports/get${more ? "_more" : ""}?id=${id}`)
+    fetch(`http://8.138.83.46:5000/reports/get${more ? "_more" : ""}?id=${id}`)
       .then((res) =>
         res.json()
       ).then((data) => {
@@ -793,7 +793,7 @@ const decompileFileList = ref([]);
 function handleDecompileDownload() {
   // 下载decompileResult
 
-  const url = `http://8.138.83.46/${decompileResult.value.download_url}`;
+  const url = `http://8.138.83.46:5000/${decompileResult.value.download_url}`;
   if (url) {
     window.open(url);
   }
@@ -1076,7 +1076,7 @@ function handleDecompileSuccess(data) {
         <el-loading :fullscreen="false" :loading="decompileLoading" text="正在反编译...">
 
         </el-loading>
-        <el-upload class="mt-2" action="http://8.138.83.46/upload_to_decompile" :multiple="false"
+        <el-upload class="mt-2" action="http://8.138.83.46:5000/upload_to_decompile" :multiple="false"
           :file-list="decompileFileList" :on-success="handleDecompileSuccess" :before-upload="beforeDecompileUpload">
           <el-button type="primary">点击上传 APK 文件开始反编译</el-button>
           <div class="el-upload__tip" slot="tip" style="color: #666">

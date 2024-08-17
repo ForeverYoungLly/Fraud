@@ -31,7 +31,7 @@ const TypeList = ref([
 
 const GetList = () => {
   axios
-    .get("http://8.138.83.46/lists/blacklist")
+    .get("http://8.138.83.46:5000/lists/blacklist")
     .then((response) => {
       const list = response.data.replace(/NaN/g, ' "" ');
       const filelist = JSON.parse(list).slice(0, 100);
@@ -50,7 +50,7 @@ const Search = () => {
   console.log(SearchInput.value);
   // 使用反引号和正确的变量插值语法
   axios
-    .get(`http://8.138.83.46/lists/search?value=${SearchInput.value}&type=${SearchKey.value}`)
+    .get(`http://8.138.83.46:5000/lists/search?value=${SearchInput.value}&type=${SearchKey.value}`)
     .then((response) => {
       console.log(response.data);
       FileList.value = response.data

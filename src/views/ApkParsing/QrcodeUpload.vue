@@ -34,7 +34,7 @@ const changeFile = (file) => {
   formData.append("file", file.raw); // 传文件
   axios({
     method: "post",
-    url: "http://8.138.83.46/files/upload/qrcode", //此处为往后台发送请求的地址
+    url: "http://8.138.83.46:5000/files/upload/qrcode", //此处为往后台发送请求的地址
     data: formData,
   }).then((res) => {
     // 处理组件加载中
