@@ -90,7 +90,7 @@ const Refresh = () => {
       <el-table-column prop="apkName" label="软件名称" width="250" />
       <el-table-column prop="md5" label="md5" width="180" />
       <el-table-column prop="_id" label="apkid" width="280" />
-      <el-table-column prop="result" label="类别" width="180" />
+      <el-table-column prop="type" label="类别" width="180" />
     </el-table>
   </page-contain>
 </template>
