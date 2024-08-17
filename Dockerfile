@@ -1,11 +1,8 @@
 # 使用官方的 Node.js 作为基础镜像
 FROM node:18-alpine
 
-# 安装 nrm
-RUN npm install -g nrm
-
-# 使用 nrm 切换到淘宝镜像源
-RUN nrm use taobao
+# 设置淘宝镜像源
+RUN npm config set registry https://registry.npmmirror.com/
 
 # 设置工作目录
 WORKDIR /app
