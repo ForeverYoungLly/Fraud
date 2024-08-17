@@ -746,7 +746,7 @@ onMounted(() => {
 
 
   const queryData = (more) => {
-    fetch(`https://fu.oboard.eu.org/reports/get${more ? "_more" : ""}?id=${id}`)
+    fetch(`http://8.138.83.46/reports/get${more ? "_more" : ""}?id=${id}`)
       .then((res) =>
         res.json()
       ).then((data) => {
@@ -793,7 +793,7 @@ const decompileFileList = ref([]);
 function handleDecompileDownload() {
   // 下载decompileResult
 
-  const url = "http://8.138.83.46/" + decompileResult.value.download_url;
+  const url = `http://8.138.83.46/${decompileResult.value.download_url}`;
   if (url) {
     window.open(url);
   }

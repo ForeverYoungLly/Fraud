@@ -32,7 +32,7 @@ const upload = () => {
   loading.value = !loading.value;
   axios({
     method: "post",
-    url: `https://fu.oboard.eu.org/files/upload/url`, //此处为往后台发送请求的地址
+    url: `http://8.138.83.46/files/upload/url`, //此处为往后台发送请求的地址
     data: {
       url: url.value,
     },
