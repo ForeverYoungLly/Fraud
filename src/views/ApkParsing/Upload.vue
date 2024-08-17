@@ -10,29 +10,39 @@ const router = useRouter()
 
 const loading = ref(false);
 
+const progress = ref();
+
 defineOptions({ name: "Upload" });
 
 const uploadSuccess = (res, file, files) => {
   // 处理组件加载中
   console.log(res);
+  // 跳转到/report?id=fileId.value
 
-  if (res.status === 200) {
-    // 跳转到/report?id=fileId.value
+  router.push({
+    path: '/report',
+    query: res
+  })
 
-    router.push({
-      path: '/report',
-      query: res.data
-    })
-  }
 };
+
+const uploadProgress = (event, file, files) => {
+  progress.value = event;
+}
 </script>
 
 <template>
-  <el-upload drag :show-file-list="true" :file-list="fileList" action="http://8.138.83.46:5000/files/upload"
-    accept=".apk" on-success="uploadSuccess">
-    <el-button :icon="UploadFilled" type="primary" size="large">上传可疑APP & 查线索</el-button>
-    <div class="el-upload__tip" slot="tip">请选择 APK 文件</div>
-  </el-upload>
+  <div>
+    <div v-if="progress" class="py-8 flex flex-col gap-2">
+      <el-progress :text-inside="true" :stroke-width="26" :percentage="(progress.percent * 0.9).toFixed(2)" />
+      <span v-if="progress.percent > 90">正在反编译……</span>
+    </div>
+    <el-upload v-else drag :show-file-list="true" :limit="1" :on-progress="uploadProgress"
+      action="http://8.138.83.46:5000/files/upload" accept=".apk" :on-success="uploadSuccess">
+      <el-button :icon="UploadFilled" type="primary" size="large">上传可疑APP & 查线索</el-button>
+      <div class="el-upload__tip" slot="tip">请选择 APK 文件</div>
+    </el-upload>
+  </div>
 </template>
 
 <style scoped>
