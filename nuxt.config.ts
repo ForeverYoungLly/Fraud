@@ -2,11 +2,18 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   modules: ["@element-plus/nuxt", "@nuxtjs/tailwindcss"],
-  options: {
-    postcss: {
-      plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+  nitro: {
+    // 该配置用于服务端请求转发
+    routeRules: {
+      "/api/**": {
+        proxy: "https://sandbox.ti.qianxin.com/**",
       },
     },
   },

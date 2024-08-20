@@ -52,103 +52,79 @@
     </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { ScatterChart } from 'echarts/charts';
-import { GeoComponent } from 'echarts/components';
+<script setup>
 import { ElTable, ElTableColumn, ElPopover, ElButton } from 'element-plus';
-import VChart from 'vue-echarts';
 
-use([CanvasRenderer, ScatterChart, GeoComponent]);
-
-export default defineComponent({
-    components: {
-        VChart,
-        ElTable,
-        ElTableColumn,
-        ElPopover,
-        ElButton,
+const dnsData = ref([]);
+const sessionData = ref([]);
+const mapOptions = ref({});
+const props = defineProps({
+    networkData: {
+        type: Object,
+        required: true,
     },
-    data() {
-        return {
-            dnsData: [],
-            sessionData: [],
-            mapOptions: {},
-        };
-    },
-    props: {
-        networkData: {
-            type: Object,
-            required: true,
+});
+onMounted(() => {
+    dnsData.value = props.networkData?.dns?.data;
+    sessionData.value = props.networkData?.session?.data;
+    generateMapOptions();
+});
+function generateMapOptions() {
+    mapOptions.value = {
+        geo: {
+            map: 'world',
+            roam: true,
+            label: {
+                emphasis: {
+                    show: false
+                }
+            },
+            itemStyle: {
+                normal: {
+                    areaColor: '#323c48',
+                    borderColor: '#111'
+                },
+                emphasis: {
+                    areaColor: '#2a333d'
+                }
+            }
         },
-    },
-    mounted() {
-
-        this.dnsData = this.networkData.dns.data;
-        this.sessionData = this.networkData.session.data;
-        this.generateMapOptions();
-    },
-    methods: {
-        generateMapOptions() {
-            this.mapOptions = {
-                geo: {
-                    map: 'world',
-                    roam: true,
+        series: [
+            {
+                name: 'IP Geolocation',
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                data: sessionData.value?.map(session => ({
+                    name: session.ip,
+                    value: [
+                        Number.parseFloat(session.longitude),
+                        Number.parseFloat(session.latitude),
+                        1 // Size or importance value
+                    ],
                     label: {
-                        emphasis: {
-                            show: false
-                        }
+                        formatter: `${session.ip} (${session.location})`
+                    }
+                })),
+                symbolSize: 10,
+                label: {
+                    normal: {
+                        show: false
                     },
-                    itemStyle: {
-                        normal: {
-                            areaColor: '#323c48',
-                            borderColor: '#111'
-                        },
-                        emphasis: {
-                            areaColor: '#2a333d'
-                        }
+                    emphasis: {
+                        show: true,
+                        formatter: '{b}',
+                        position: 'right'
                     }
                 },
-                series: [
-                    {
-                        name: 'IP Geolocation',
-                        type: 'scatter',
-                        coordinateSystem: 'geo',
-                        data: this.sessionData.map(session => ({
-                            name: session.ip,
-                            value: [
-                                parseFloat(session.longitude),
-                                parseFloat(session.latitude),
-                                1 // Size or importance value
-                            ],
-                            label: {
-                                formatter: session.ip + ' (' + session.location + ')'
-                            }
-                        })),
-                        symbolSize: 10,
-                        label: {
-                            normal: {
-                                show: false
-                            },
-                            emphasis: {
-                                show: true,
-                                formatter: '{b}',
-                                position: 'right'
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: '#ddb926'
-                            }
-                        }
+                itemStyle: {
+                    normal: {
+                        color: '#ddb926'
                     }
-                ]
-            };
-        }
-    }
-});
+                }
+            }
+        ]
+    };
+}
 </script>
 
 <style scoped>

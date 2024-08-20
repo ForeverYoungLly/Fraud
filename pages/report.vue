@@ -755,7 +755,27 @@ onMounted(() => {
       });
   }
   queryData();
-  queryData(true);
+
+  const links = {
+    "static_analyze": "api/sandbox/report/dynamic/get/static_analyze/file/",
+    "threat_analyze": "api/sandbox/report/dynamic/get/threat_analyze/file/",
+    "host_behavior": "api/sandbox/report/dynamic/get/host_behavior/file/",
+    "network_behavior": "api/sandbox/report/dynamic/get/network_behavior/file/",
+    "dropfile": "api/sandbox/report/dynamic/get/dropfile/file/",
+    "screenshot": "api/sandbox/report/dynamic/get/screenshot/file/"
+  };
+
+  for (const key in links) {
+    const link = links[key];
+    $fetch(link + id).then((data) => {
+      report.value = {
+        ...report.value,
+        [key]: data
+      };
+    });
+  }
+
+  // queryData(true);
 
 });
 
@@ -928,8 +948,10 @@ function handleDecompileSuccess(data) {
         <InformationItem :label="'包名'" :value="report.package_name" />
         <InformationItem :label="'MD5'" :value="report.md5" />
         <InformationItem :label="'SHA1'" :value="report.SHA1" />
-        <InformationItem :label="'SHA256'" :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
-        <InformationItem :label="'SHA512'" :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
+        <InformationItem :label="'SHA256'" v-if="report.static_analysis?.basic_info?.sha256"
+          :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
+        <InformationItem :label="'SHA512'" v-if="report.static_analysis?.basic_info?.sha512"
+          :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
         <InformationItem :label="'安装包大小'" v-if="report.static_analysis?.basic_info?.size"
           :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />

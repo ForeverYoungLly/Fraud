@@ -33,8 +33,8 @@ const uploadProgress = (event, file, files) => {
       <el-progress :text-inside="true" :stroke-width="26" :percentage="(progress.percent * 0.9).toFixed(2)" />
       <span v-if="progress.percent > 90">正在反编译……</span>
     </div>
-    <el-upload v-else drag :show-file-list="true" :limit="1" :on-progress="uploadProgress"
-      action="http://8.138.83.46:5000/files/upload" accept=".apk" :on-success="uploadSuccess">
+    <el-upload  drag :show-file-list="true" :limit="1" :on-progress="uploadProgress"
+      action="http://127.0.0.1:5000/files/upload" accept=".apk" :on-success="uploadSuccess">
       <el-button :icon="UploadFilled" type="primary" size="large">上传可疑APP & 查线索</el-button>
       <div class="el-upload__tip" slot="tip">请选择 APK 文件</div>
     </el-upload>
