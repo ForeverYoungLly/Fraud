@@ -13,7 +13,7 @@ const upload = () => {
   loading.value = !loading.value;
   axios({
     method: "post",
-    url: "http://8.138.83.46:5000/files/upload/url", //此处为往后台发送请求的地址
+    url: "http://127.0.0.1:5000/files/upload/url", //此处为往后台发送请求的地址
     data: {
       url: url.value,
     },

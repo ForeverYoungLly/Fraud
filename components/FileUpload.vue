@@ -97,11 +97,12 @@ onMounted(() => {
   ];
   setInterval(() => {
     doingText.value = progressTexts[Math.floor(Math.random() * progressTexts.length)];
-    progress.value = { ...progress.value, percent: progress.value.percent + 0.1 }
-    if (progress.value.percent >= 99.9 / 0.9) {
-      progress.value = { ...progress.value, percent: 99.9 / 0.9 }
+    if (progress.value) {
+      progress.value = { ...progress.value, percent: progress.value.percent + 0.1 }
+      if (progress.value.percent >= 99.9 / 0.9) {
+        progress.value = { ...progress.value, percent: 99.9 / 0.9 }
+      }
     }
-
   }, 1000);
 });
 </script>
@@ -113,7 +114,7 @@ onMounted(() => {
       <span v-if="progress.percent > 90">{{ doingText }}……</span>
     </div>
     <el-upload drag :show-file-list="true" :limit="1" :on-progress="uploadProgress"
-      action="http://8.138.83.46:5000/files/upload" accept=".apk" :on-success="uploadSuccess">
+      action="http://127.0.0.1:5000/files/upload" accept=".apk" :on-success="uploadSuccess">
       <el-button :icon="UploadFilled" type="primary" size="large">上传可疑APP & 查线索</el-button>
       <div class="el-upload__tip" slot="tip">请选择 APK 文件</div>
     </el-upload>

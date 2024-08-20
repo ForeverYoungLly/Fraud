@@ -34,7 +34,7 @@ const report = ref({
   "activities": [
     "com.example.android_web.WelcomeActivity"
   ],
-  "static_analysis": {
+  "static_analyze": {
     "data": {
       "apkid_metadata": [],
       "basic_info": {
@@ -123,7 +123,7 @@ const report = ref({
     "msg": "ok",
     "status": 10000
   },
-  "threat_analysis": {
+  "threat_analyze": {
     "data": {
       "behavior_exception_analyze": [
         {
@@ -744,7 +744,7 @@ onMounted(() => {
 
 
   const queryData = (more) => {
-    fetch(`http://8.138.83.46:5000/reports/get${more ? "_more" : ""}?id=${id}`)
+    fetch(`http://127.0.0.1:5000/reports/get${more ? "_more" : ""}?id=${id}`)
       .then((res) =>
         res.json()
       ).then((data) => {
@@ -894,7 +894,7 @@ const decompileFileList = ref([]);
 function handleDecompileDownload() {
   // 下载decompileResult
 
-  const url = `http://8.138.83.46:5000/${decompileResult.value.download_url}`;
+  const url = `http://127.0.0.1:5000/${decompileResult.value.download_url}`;
   if (url) {
     window.open(url);
   }
@@ -914,9 +914,9 @@ function handleDecompileSuccess(data) {
     <div class="min-w-[128px] flex flex-col fixed nav">
       <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
       <a href="#permission" :class="{ active: currentSection === 'permission' }">权限列表</a>
-      <a href="#threat" v-if="report.threat_analysis?.ti?.data"
+      <a href="#threat" v-if="report.threat_analyze?.ti?.data"
         :class="{ active: currentSection === 'threat' }">威胁情报</a>
-      <a href="#behavior_exception_analyze" v-if="report.threat_analysis?.behavior_exception_analyze"
+      <a href="#behavior_exception_analyze" v-if="report.threat_analyze?.behavior_exception_analyze"
         :class="{ active: currentSection === 'behavior_exception_analyze' }">行为异常分析</a>
       <a href="#network" :class="{ active: currentSection === 'network' }">网络分析</a>
       <a href="#domain" :class="{ active: currentSection === 'domain' }">域名线索</a>
@@ -929,10 +929,10 @@ function handleDecompileSuccess(data) {
         <div class="flex flex-row gap-2 items-center justify-between">
           <div class="flex flex-row gap-3 items-center mb-4">
 
-            <CircleIndicator v-if="report.static_analysis?.basic_info?.score"
-              :score="report.static_analysis?.basic_info?.score" />
-            <img v-if="report.static_analysis?.basic_info?.file_icon"
-              :src="'data:image/png;base64,' + report.static_analysis.basic_info.file_icon" alt="icon"
+            <CircleIndicator v-if="report.static_analyze?.basic_info?.score"
+              :score="report.static_analyze?.basic_info?.score" />
+            <img v-if="report.static_analyze?.basic_info?.file_icon"
+              :src="'data:image/png;base64,' + report.static_analyze.basic_info.file_icon" alt="icon"
               class="w-16 h-16 mb-2">
             <svg v-else class="w-16 h-16 mb-2" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
               p-id="4301" width="200" height="200">
@@ -1032,24 +1032,24 @@ function handleDecompileSuccess(data) {
         <InformationItem :label="'包名'" :value="report.package_name" />
         <InformationItem :label="'MD5'" :value="report.md5" />
         <InformationItem :label="'SHA1'" :value="report.SHA1" />
-        <InformationItem :label="'SHA256'" v-if="report.static_analysis?.basic_info?.sha256"
-          :value="report.static_analysis?.basic_info?.sha256 ?? '分析中'" />
-        <InformationItem :label="'SHA512'" v-if="report.static_analysis?.basic_info?.sha512"
-          :value="report.static_analysis?.basic_info?.sha512 ?? '分析中'" />
-        <InformationItem :label="'安装包大小'" v-if="report.static_analysis?.basic_info?.size"
-          :value="(report.static_analysis?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
+        <InformationItem :label="'SHA256'" v-if="report.static_analyze?.basic_info?.sha256"
+          :value="report.static_analyze?.basic_info?.sha256 ?? '分析中'" />
+        <InformationItem :label="'SHA512'" v-if="report.static_analyze?.basic_info?.sha512"
+          :value="report.static_analyze?.basic_info?.sha512 ?? '分析中'" />
+        <InformationItem :label="'安装包大小'" v-if="report.static_analyze?.basic_info?.size"
+          :value="(report.static_analyze?.basic_info?.size / 1024 / 1024).toFixed(2) + 'MB'" />
         <InformationItem :label="'版本编号'" :value="report.version_code" />
         <InformationItem :label="'版本名称'" :value="report.version_name" />
-        <InformationItem label="Android平台最低版本" v-if="report.static_analysis?.metadata?.min_sdk_version"
-          :value="report.static_analysis.metadata.min_sdk_version" />
-        <InformationItem label="Android平台最高版本" v-if="report.static_analysis?.metadata?.max_sdk_version"
-          :value="report.static_analysis.metadata.max_sdk_version" />
+        <InformationItem label="Android平台最低版本" v-if="report.static_analyze?.metadata?.min_sdk_version"
+          :value="report.static_analyze.metadata.min_sdk_version" />
+        <InformationItem label="Android平台最高版本" v-if="report.static_analyze?.metadata?.max_sdk_version"
+          :value="report.static_analyze.metadata.max_sdk_version" />
         <InformationItem label="目标Android平台版本" :value="android_versions
         [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
-        <InformationItem label="主Activity" v-if="report.static_analysis?.metadata?.main_activity"
-          :value="report.static_analysis.metadata.main_activity" />
-        <InformationItem label="签名失效时间" v-if="report.static_analysis?.signature?.end_time"
-          :value="report.static_analysis.signature.end_time" />
+        <InformationItem label="主Activity" v-if="report.static_analyze?.metadata?.main_activity"
+          :value="report.static_analyze.metadata.main_activity" />
+        <InformationItem label="签名失效时间" v-if="report.static_analyze?.signature?.end_time"
+          :value="report.static_analyze.signature.end_time" />
       </section>
 
       <section id="permission" class="mt-8">
@@ -1074,10 +1074,10 @@ function handleDecompileSuccess(data) {
         </el-table>
       </section>
 
-      <section id="threat" class="mt-8" v-if="report.threat_analysis?.ti?.data">
+      <section id="threat" class="mt-8" v-if="report.threat_analyze?.ti?.data">
         <InformationItem label="威胁情报" value="" />
 
-        <el-table border :data="report.threat_analysis.ti.data" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
+        <el-table border :data="report.threat_analyze.ti.data" style="width: 100%" :row-class-name="({ row, rowIndex }) => {
           // switch (row.Level) {
           //   case 0:
           //     return 'normal-row'
@@ -1113,9 +1113,9 @@ function handleDecompileSuccess(data) {
         </el-table>
       </section>
 
-      <section id="behavior_exception_analyze" class="mt-8" v-if="report.threat_analysis?.behavior_exception_analyze">
+      <section id="behavior_exception_analyze" class="mt-8" v-if="report.threat_analyze?.behavior_exception_analyze">
         <InformationItem label="行为异常分析" value="" />
-        <el-table :data="report.threat_analysis?.behavior_exception_analyze" border style="width: 100%">
+        <el-table :data="report.threat_analyze?.behavior_exception_analyze" border style="width: 100%">
           <el-table-column prop="description_chinese" label="威胁描述" width="300">
           </el-table-column>
           <el-table-column prop="severity" label="严重级别" width="120">
@@ -1155,10 +1155,10 @@ function handleDecompileSuccess(data) {
         <NetworkBehavior :networkData="report.network_behavior" />
       </section>
 
-      <section id="domain" class="mt-8" v-if="report.static_analysis?.code_analysis">
+      <section id="domain" class="mt-8" v-if="report.static_analyze?.code_analysis">
         <InformationItem label="域名线索" value="" />
         <ul>
-          <li v-for="domain in report.static_analysis.code_analysis.domains" :key="domain" style="color: deepskyblue;">
+          <li v-for="domain in report.static_analyze.code_analysis.domains" :key="domain" style="color: deepskyblue;">
             {{ domain }}
           </li>
         </ul>
@@ -1179,7 +1179,7 @@ function handleDecompileSuccess(data) {
         <el-loading :fullscreen="false" :loading="decompileLoading" text="正在反编译...">
 
         </el-loading>
-        <el-upload class="mt-2" action="http://8.138.83.46:5000/upload_to_decompile" :multiple="false"
+        <el-upload class="mt-2" action="http://127.0.0.1:5000/upload_to_decompile" :multiple="false"
           :file-list="decompileFileList" :on-success="handleDecompileSuccess" :before-upload="beforeDecompileUpload">
           <el-button type="primary">点击上传 APK 文件开始反编译</el-button>
           <div class="el-upload__tip" slot="tip" style="color: #666">

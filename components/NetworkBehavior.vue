@@ -56,6 +56,7 @@
 import { ElTable, ElTableColumn, ElPopover, ElButton } from 'element-plus';
 
 const dnsData = ref([]);
+const httpData = ref([]);
 const sessionData = ref([]);
 const mapOptions = ref({});
 const props = defineProps({
@@ -66,6 +67,7 @@ const props = defineProps({
 });
 onMounted(() => {
     dnsData.value = props.networkData?.dns?.data;
+    httpData.value = props.networkData?.http?.data;
     sessionData.value = props.networkData?.session?.data;
     generateMapOptions();
 });
