@@ -700,7 +700,7 @@ const report = ref({
     "msg": "ok",
     "status": 10000
   },
-  "ai_response": "..."
+  "ai_response": "正在思考……"
 }
 );
 
@@ -764,18 +764,101 @@ onMounted(() => {
     "dropfile": "api/sandbox/report/dynamic/get/dropfile/file/",
     "screenshot": "api/sandbox/report/dynamic/get/screenshot/file/"
   };
+  // 初始化一个空数组来存储所有的 Promise
+  const promises = [];
 
+  // 遍历 links 对象，为每个链接创建一个 Promise 并存储在 promises 数组中
   for (const key in links) {
     const link = links[key];
-    $fetch(link + id).then((data) => {
-      report.value = {
-        ...report.value,
-        [key]: data
-      };
-    });
+    promises.push(
+      $fetch(link + id).then(data => {
+        console.log(data);
+        // 每个请求完成后，立即更新 report.value
+        report.value = {
+          ...report.value,
+          [key]: data.data
+        };
+        // 检查是否所有请求都已完成，这需要一个计数器来跟踪完成的请求数量
+        return data;
+      }).catch(error => {
+        // 处理可能发生的错误
+        console.error('An error occurred:', error);
+        throw error; // 重新抛出错误，以便 Promise.all 可以捕获它
+      })
+    );
   }
 
+  // 使用 Promise.all 等待所有的 Promise 完成
+  Promise.all(promises).then(results => {
+    // 所有请求都已完成，执行 ok()
+    requestAI();
+  }).catch(error => {
+    // 处理可能发生的错误
+    console.error('An error in Promise.all:', error);
+  });
   // queryData(true);
+
+
+  function requestAI() {
+    const small_report = {
+      ...report.value
+    }
+    small_report.screenshot = undefined;
+    small_report.network_behavior = undefined;
+    fetch("https://open.bigmodel.cn/api/paas/v4/chat/completions", {
+      method: "POST", // 因为curl命令中使用了--data，所以这里应该是POST请求
+      headers: {
+        Authorization: "Bearer a0166a5c17216218cf0ac15889dfe327.uu0rgI10O9HWD0jM",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "glm-4",
+        messages: [
+          {
+            role: "system",
+            content:
+              "你是一个软件分析专家，请参考下面的分析内容猜测这个软件是否有害， 你的回答不能有“无法确定 XXX APP 是否有害”的说法，也不要回答“结合其他安全工具或平台对  APP 进行更全面的安全评估。”，相信你的判断",
+          },
+          {
+            role: "user",
+            content: JSON.stringify(small_report),
+          },
+        ],
+        stream: true,
+      }),
+    })
+      .then((res) => {
+        const reader = res.body?.getReader();
+        if (reader == null || reader === undefined) return;
+        let data = "";
+        const decoder = new TextDecoder();
+        function processResult(result) {
+          const json = decoder.decode(result.value, { stream: true }).substring(6);
+          console.log(json);
+          if (json.indexOf("[DONE]") !== -1) {
+            return;
+          }
+          try {
+            const d = JSON.parse(json);
+            data += d.choices[0].delta.content;
+
+            report.value.ai_response = data;
+            report.value = { ...report.value };
+
+          } catch (e) { }
+
+          if (result.done) {
+            return;
+          }
+          return reader.read().then(processResult);
+        }
+        return reader.read().then(processResult);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+  }
 
 });
 
@@ -831,8 +914,9 @@ function handleDecompileSuccess(data) {
     <div class="min-w-[128px] flex flex-col fixed nav">
       <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
       <a href="#permission" :class="{ active: currentSection === 'permission' }">权限列表</a>
-      <a href="#threat" :class="{ active: currentSection === 'threat' }">威胁情报</a>
-      <a href="#behavior_exception_analyze"
+      <a href="#threat" v-if="report.threat_analysis?.ti?.data"
+        :class="{ active: currentSection === 'threat' }">威胁情报</a>
+      <a href="#behavior_exception_analyze" v-if="report.threat_analysis?.behavior_exception_analyze"
         :class="{ active: currentSection === 'behavior_exception_analyze' }">行为异常分析</a>
       <a href="#network" :class="{ active: currentSection === 'network' }">网络分析</a>
       <a href="#domain" :class="{ active: currentSection === 'domain' }">域名线索</a>
@@ -1084,8 +1168,8 @@ function handleDecompileSuccess(data) {
       <section id="screenshot" class="mt-8">
         <InformationItem label="运行截图" value="" />
         <div class="grid grid-cols-4 gap-2">
-          <img v-for="(screenshot, index) in report.screenshot" :src="'data:image/png;base64,' + screenshot"
-            class="border rounded-md" :key="index" />
+          <img v-for="screenshot of report.screenshot" :src="'data:image/jpeg;base64,' + screenshot"
+            class="border rounded-md" />
         </div>
       </section>
 
