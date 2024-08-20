@@ -4,16 +4,43 @@
 .nuxt
 .nitro
 .cache
+<<<<<<< HEAD
 dist
 
 # Node dependencies
 node_modules
+=======
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+>>>>>>> refs/remotes/origin/main
 
 # Logs
 logs
 *.log
 
+<<<<<<< HEAD
 # Misc
+=======
+# Node dependencies
+node_modules
+
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+>>>>>>> refs/remotes/origin/main
 .DS_Store
 .fleet
 .idea
