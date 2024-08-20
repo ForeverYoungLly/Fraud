@@ -914,8 +914,7 @@ function handleDecompileSuccess(data) {
     <div class="min-w-[128px] flex flex-col fixed nav">
       <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
       <a href="#permission" :class="{ active: currentSection === 'permission' }">权限列表</a>
-      <a href="#threat" v-if="report.threat_analyze?.ti?.data"
-        :class="{ active: currentSection === 'threat' }">威胁情报</a>
+      <a href="#threat" v-if="report.threat_analyze?.ti?.data" :class="{ active: currentSection === 'threat' }">威胁情报</a>
       <a href="#behavior_exception_analyze" v-if="report.threat_analyze?.behavior_exception_analyze"
         :class="{ active: currentSection === 'behavior_exception_analyze' }">行为异常分析</a>
       <a href="#network" :class="{ active: currentSection === 'network' }">网络分析</a>
@@ -1048,8 +1047,19 @@ function handleDecompileSuccess(data) {
         [report.target_sdk_version] + ' => ' + report.target_sdk_version" />
         <InformationItem label="主Activity" v-if="report.static_analyze?.metadata?.main_activity"
           :value="report.static_analyze.metadata.main_activity" />
-        <InformationItem label="签名失效时间" v-if="report.static_analyze?.signature?.end_time"
-          :value="report.static_analyze.signature.end_time" />
+        <div v-if="report.static_analyze?.signature?.length">
+          <InformationItem label="使用SHA-1算法计算的签名指纹" v-if="report.static_analyze?.signature[0]?.sha1_fingerprint"
+            :value="report.static_analyze.signature[0].sha1_fingerprint" />
+          <InformationItem label="签名的签发者信息" v-if="report.static_analyze?.signature[0]?.issuer"
+            :value="report.static_analyze.signature[0].issuer" />
+          <span class="text-gray text-sm"> 国家代码(C)、州或地区(S)、地点(L)、组织(O)、组织单位(OU)和通用名称(CN)</span>
+          <InformationItem label="签名序列号" v-if="report.static_analyze?.signature[0]?.serial_number"
+            :value="report.static_analyze.signature[0].serial_number" />
+          <InformationItem label="签名生效时间" v-if="report.static_analyze?.signature[0]?.start_time"
+            :value="report.static_analyze.signature[0].start_time" />
+          <InformationItem label="签名失效时间" v-if="report.static_analyze?.signature[0]?.end_time"
+            :value="report.static_analyze.signature[0].end_time" />
+        </div>
       </section>
 
       <section id="permission" class="mt-8">
