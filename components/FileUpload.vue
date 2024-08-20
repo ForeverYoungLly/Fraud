@@ -97,6 +97,11 @@ onMounted(() => {
   ];
   setInterval(() => {
     doingText.value = progressTexts[Math.floor(Math.random() * progressTexts.length)];
+    progress.value = { ...progress.value, percent: progress.value.percent + 0.1 }
+    if (progress.value.percent >= 99.9 / 0.9) {
+      progress.value = { ...progress.value, percent: 99.9 / 0.9 }
+    }
+
   }, 1000);
 });
 </script>
