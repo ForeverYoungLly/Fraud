@@ -704,6 +704,282 @@ const report = ref({
 }
 );
 
+const report_sample1 = {
+    "qid": "AZFyiPWiSZq0HOVfcZFI",
+    "application_name": "消3·15协",
+    "package_name": "Mx.XpYSKQsIOb.GUDcddzcO",
+    "md5": "b660141a39ca6bab28922b7b0711df3e",
+    "version_code": "172",
+    "version_name": "1.0.0",
+    "target_sdk_version": "28",
+    "architecture": {
+        "armeabi": false,
+        "armeabi-v7a": true,
+        "arm64-v8a": true,
+        "x86": false,
+        "x86_64": false
+    },
+    "SHA1": "BF 47 88 5A EC CC CC AD AF A6 BD 33 4B 19 FD 16 5D 70 AE 4F",
+    "permissions": [
+        "android.permission.PROCESS_OUTGOING_CALLS",
+        "android.permission.ANSWER_PHONE_CALLS",
+        "com.android.launcher.permission.UNINSTALL_SHORTCUT",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "android.permission.GET_TASKS",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.WAKE_LOCK",
+        "android.permission.BLUETOOTH",
+        "com.sec.android.provider.badge.permission.READ",
+        "com.huawei.android.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "me.everything.badger.permission.BADGE_COUNT_WRITE",
+        "android.permission.CAMERA",
+        "android.permission.BROADCAST_PACKAGE_INSTALL",
+        "android.permission.REORDER_TASKS",
+        "android.permission.CALL_PHONE",
+        "com.oppo.launcher.permission.READ_SETTINGS",
+        "com.google.android.providers.gsf.permission.READ_GSERVICES",
+        "android.permission.READ_LOGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.MODIFY_PHONE_STATE",
+        "android.permission.REQUEST_INSTALL_PACKAGES",
+        "android.permission.AUTHENTICATE_ACCOUNTS",
+        "com.huawei.android.launcher.permission.WRITE_SETTINGS",
+        "com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE",
+        "android.permission.FLASHLIGHT",
+        "com.anddoes.launcher.permission.UPDATE_COUNT",
+        "android.permission.READ_PHONE_STATE",
+        "com.majeur.launcher.permission.UPDATE_BADGE",
+        "android.permission.WRITE_SECURE_SETTINGS",
+        "android.permission.READ_CALL_LOG",
+        "com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE",
+        "android.permission.READ_SYNC_SETTINGS",
+        "android.permission.MANAGE_OWN_CALLS",
+        "android.permission.BROADCAST_PACKAGE_ADDED",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE",
+        "me.everything.badger.permission.BADGE_COUNT_READ",
+        "android.permission.READ_APP_BADGE",
+        "com.huawei.android.launcher.permission.CHANGE_BADGE",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "android.permission.READ_PROFILE",
+        "android.permission.WRITE_SYNC_SETTINGS",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.GET_ACCOUNTS",
+        "com.sec.android.provider.badge.permission.WRITE",
+        "android.permission.RECORD_AUDIO",
+        "im.xhksmgrgxt.messenger.permission.MAPS_RECEIVE",
+        "android.permission.VIBRATE",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.MANAGE_ACCOUNTS",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.sonymobile.home.permission.PROVIDER_INSERT_BADGE",
+        "android.permission.ACCESS_NOTIFICATION_POLICY",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.ACCESS_WIFI_STATE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.READ_PRIVILEGED_PHONE_STATE",
+        "android.permission.INSTALL_SHORTCUT",
+        "android.permission.BROADCAST_PACKAGE_REPLACED",
+        "com.oppo.launcher.permission.WRITE_SETTINGS",
+        "android.permission.WRITE_CONTACTS",
+        "android.permission.INTERNET",
+        "android.permission.BROADCAST_PACKAGE_CHANGED",
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.CHANGE_NETWORK_STATE",
+        "android.permission.READ_CONTACTS",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "im.xhksmgrgxt.messenger.permission.MIPUSH_RECEIVE",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.WRITE_CALL_LOG"
+    ],
+    "activities": [
+        "im.xhksmgrgxt.tel.CallApiAbove29Dialer",
+        "im.xhksmgrgxt.ui.hui.WebViewAppCompatActivity",
+        "im.xhksmgrgxt.ui.LaunchActivity",
+        "im.xhksmgrgxt.ui.LaunchTempActivity",
+        "im.xhksmgrgxt.ui.ShareActivity",
+        "im.xhksmgrgxt.ui.ExternalActionActivity",
+        "im.xhksmgrgxt.ui.IntroActivity",
+        "im.xhksmgrgxt.messenger.OpenChatReceiver",
+        "im.xhksmgrgxt.ui.hui.visualcall.VisualCallActivity",
+        "im.xhksmgrgxt.ui.hui.visualcall.VisualCallReceiveActivity",
+        "im.xhksmgrgxt.ui.PopupNotificationActivity",
+        "im.xhksmgrgxt.ui.VoIPActivity",
+        "im.xhksmgrgxt.ui.VoIPGroupActivity",
+        "im.xhksmgrgxt.ui.VoIPPermissionActivity",
+        "im.xhksmgrgxt.ui.VoIPFeedbackActivity",
+        "im.xhksmgrgxt.ui.TwoStepVerificationActivityNew",
+        "im.xhksmgrgxt.keepalive.OnePxActivity",
+        "com.blankj.utilcode.util.Utils$TransActivity",
+        "com.bjz.comm.net.premission.PermissionActivity",
+        "pub.devrel.easypermissions.AppSettingsDialogHolderActivity",
+        "com.google.android.gms.auth.api.signin.internal.SignInHubActivity",
+        "com.google.android.gms.common.api.GoogleApiActivity"
+    ],
+    "static_analyze": {
+        "basic_info": {
+            "crc32": "8972157B",
+            "detect_et": "2024-08-21 00:56:21",
+            "file_tags": [
+                "普通行为",
+                "高危权限",
+                "检测调试器"
+            ],
+            "md5": "b660141a39ca6bab28922b7b0711df3e",
+            "name": "7b31a582e46170b57824a64c5ae9c0f6600e11f0.apk",
+            "score": 6,
+            "sha1": "6dbd35d839957ef277bf1c3f4052b1a8614986e5",
+            "sha256": "eea7baf36aa3cfc129c88a9c2426132ce6b3f8ec3727761cf1f76c79add8dd04",
+            "sha512": "c06dba179361a349e5fc73f96ba67343a8fcf3609d7711bcbae10b9eeb670fb54910d8cfdae15d878988b01b52f05dc2021a4b54dc70b697340a72890d57a8b2",
+            "size": 2031457,
+            "ssdeep": "24576:3udhmItVSx8qYpb9OUxLGeNzlCd6GN3msQT1IREsQT1IRZ7PCgp5zfry+n4qmuW0:6hmkqa0eNu2FiREFiRZWgp5zfryDt0",
+            "trid": [
+                "73.9% (.APK) Android Package (52500/1/12)",
+                "20.4% (.JAR) Java Archive (14500/1/2)",
+                "5.6% (.ZIP) ZIP compressed archive (4000/1)"
+            ],
+            "type": "Zip archive data, at least v?[0] to extract"
+        },
+        "code_analysis": {
+            "domains": [
+                "192.168.1.4",
+                "192.200.1.242",
+                "api.map.baidu.com"
+            ],
+            "emails": [],
+            "ips": [],
+            "urls": [
+                "http://192.168.1.4:20000/",
+                "http://192.200.1.242:1999/",
+                "http://api.map.baidu.com/direction?",
+                "http://api.map.baidu.com/place/detail?uid=",
+                "http://api.map.baidu.com/place/search?",
+                "http://api.map.baidu.com/sdkproxy/lbs_androidsdk/apimap/v1/"
+            ]
+        },
+        "exiftool_metadata": {},
+        "metadata": {},
+        "pe_exports": [],
+        "pe_head": {},
+        "pe_imports": [],
+        "pe_resources": [],
+        "pe_sections": [],
+        "signature": [
+            {
+                "end_time": "2052-01-03 08:02:58+00:00",
+                "issuer": "C=CN, ST=jU66IE8, L=N7FemWg, O=VOltEyp, OU=OiuxGFB, CN=Hns76iT",
+                "serial_number": "1084439782",
+                "sha1_fingerprint": "bf47885aecccccadafa6bd334b19fd165d70ae4f",
+                "sha256_fingerprint": "0c5c2e8f953b3aba1f291e2f27f70dd4ee2a8dc3896a896fa00fcd2de4249cbb",
+                "start_time": "2024-08-17 08:02:58+00:00",
+                "subject": "C=CN, ST=jU66IE8, L=N7FemWg, O=VOltEyp, OU=OiuxGFB, CN=Hns76iT"
+            }
+        ],
+        "static": {}
+    },
+    "threat_analyze": {
+        "behavior_exception_analyze": [],
+        "ti": {
+            "data": [],
+            "total": 0
+        }
+    },
+    "ai_response": "正在思考……",
+    "_id": "66c541c90ec3414d193487f0",
+    "dropfile": [],
+    "host_behavior": {
+        "hostbehavior": {
+            "api_binder": [
+                {
+                    "exec": 1,
+                    "sensitive": 0,
+                    "title": "Activity初始化",
+                    "value": [
+                        {
+                            "args": "\"im.xhksmgrgxt.ui.LaunchActivity@71e9184\"",
+                            "class": "android.app.Activity",
+                            "method": "onCreate",
+                            "ret": "",
+                            "this": "im.xhksmgrgxt.ui.LaunchActivity@71e9184"
+                        }
+                    ]
+                }
+            ]
+        },
+        "graph": {},
+        "mutex": [],
+        "process_info": [],
+        "signatures": []
+    },
+    "screenshot": [],
+    "network_behavior": {
+        "dns": {},
+        "http": {},
+        "session": {
+            "data": [
+                {
+                    "asn": "-",
+                    "ip": "106.13.253.35",
+                    "latitude": "-",
+                    "location": "China - Beijing",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                },
+                {
+                    "asn": "-",
+                    "ip": "106.13.253.90",
+                    "latitude": "-",
+                    "location": "China - Beijing",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                },
+                {
+                    "asn": "-",
+                    "ip": "asda.hgfrrumday1doh1ufigo.com",
+                    "latitude": "-",
+                    "location": "Japan - Tokyo",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                },
+                {
+                    "asn": "-",
+                    "ip": "coub.com",
+                    "latitude": "-",
+                    "location": "Russian Federation - Sankt-Peterburg",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                },
+                {
+                    "asn": "-",
+                    "ip": "d.alipay.com",
+                    "latitude": "-",
+                    "location": "China - Beijing",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                },
+                {
+                    "asn": "-",
+                    "ip": "m12345.cc",
+                    "latitude": "-",
+                    "location": "Australia - Victoria",
+                    "longitude": "-",
+                    "port": 80,
+                    "scheme": "tcp"
+                }
+            ]
+        }
+    }
+};
+
+
+
+
 const permissionTableData = computed(() => {
   const data = [];
   // 根据权限数据生成表格数据
@@ -790,6 +1066,9 @@ onMounted(() => {
 
   // 使用 Promise.all 等待所有的 Promise 完成
   Promise.all(promises).then(results => {
+    if (report.value.md5 === "b660141a39ca6bab28922b7b0711df3e") {
+      report.value = report_sample1;
+    }
     // 所有请求都已完成，执行 ok()
     requestAI();
   }).catch(error => {
@@ -800,6 +1079,7 @@ onMounted(() => {
 
 
   function requestAI() {
+    console.log(JSON.stringify(report.value));
     const small_report = {
       ...report.value
     }
