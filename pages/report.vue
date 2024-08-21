@@ -8295,6 +8295,7 @@ function handleDecompileSuccess(data) {
     <div class="min-w-[128px] flex flex-col fixed nav">
       <a href="#basic" :class="{ active: currentSection === 'basic' }">基本信息</a>
       <a href="#permission" :class="{ active: currentSection === 'permission' }">权限列表</a>
+      <a href="#constant" :class="{ active: currentSection === 'constant' }">硬编码敏感信息</a>
       <a href="#threat" v-if="report.threat_analyze?.ti?.data" :class="{ active: currentSection === 'threat' }">威胁情报</a>
       <a href="#behavior_exception_analyze" v-if="report.threat_analyze?.behavior_exception_analyze"
         :class="{ active: currentSection === 'behavior_exception_analyze' }">行为异常分析</a>
@@ -8467,7 +8468,7 @@ function handleDecompileSuccess(data) {
       </section>
 
 
-      <section id="constant" class="mt-8" v-if="report.arsc_strings">
+      <section id="constant" class="mt-8 px-8" v-if="report.arsc_strings">
         <InformationItem label="硬编码敏感信息" value="" />
         <el-collapse class="">
           <div v-for="(categories, categoryKey) in report.arsc_strings" :key="categoryKey">
